@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تدريبات المصادر - العربية السهلة</title>
+    <!-- استدعاء إطار عمل Tailwind CSS للتنسيق -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- استدعاء خط نوتو نسخ عربي -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Naskh Arabic', serif;
+            background-color: #f8fafc; /* خلفية هادئة جداً */
+            color: #1e293b;
+        }
+        
+        /* تخصيص ألوان أزرار الراديو */
+        input[type="radio"] {
+            accent-color: #4f46e5;
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        /* تنسيقات انتقالية التبويبات */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تحسين مظهر التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-12">
+
+    <!-- الحاوية الرئيسية -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        
+        <!-- الترويسة (Header) -->
+        <header class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center mb-6 relative overflow-hidden">
+            <!-- زخرفة خلفية خفيفة -->
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-indigo-50 rounded-full opacity-50"></div>
+            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-24 h-24 bg-rose-50 rounded-full opacity-50"></div>
+            
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-indigo-900 mb-3">تدريبات تفاعلية على المصادر</h1>
+                <p class="text-xl text-gray-700 mb-6 font-medium">إعداد/ محمود صلاح</p>
+                
+                <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-3 bg-red-50 hover:bg-red-100 text-red-700 px-6 py-3 rounded-full transition-all duration-300 border border-red-100 shadow-sm font-bold text-lg hover:-translate-y-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    العربية السهلة
+                </a>
+            </div>
+        </header>
+
+        <!-- شريط التنقل العلوي (Tabs) - ثابت في الأعلى عند التمرير -->
+        <nav class="sticky top-2 z-50 flex flex-wrap justify-center gap-2 mb-8 bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-md border border-gray-100">
+            <button onclick="openTab('intro')" id="tab-intro" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-lg transition-all duration-200 bg-indigo-600 text-white shadow-md">الرئيسية</button>
+            <button onclick="openTab('tri')" id="tab-tri" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-lg transition-all duration-200 bg-gray-50 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 border border-transparent hover:border-indigo-100">المصادر الثلاثية</button>
+            <button onclick="openTab('quad')" id="tab-quad" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-lg transition-all duration-200 bg-gray-50 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 border border-transparent hover:border-indigo-100">المصادر الرباعية</button>
+            <button onclick="openTab('penta-hexa')" id="tab-penta-hexa" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-lg transition-all duration-200 bg-gray-50 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 border border-transparent hover:border-indigo-100">المصادر الخماسية والسداسية</button>
+            <button onclick="openTab('comprehensive')" id="tab-comprehensive" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-lg transition-all duration-200 bg-gray-50 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 border border-transparent hover:border-indigo-100">تدريبات شاملة</button>
+        </nav>
+
+        <!-- محتويات التبويبات -->
+        <main class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            
+            <!-- 1. الرئيسية -->
+            <div id="intro" class="tab-content active p-8 bg-slate-50/50">
+                <h2 class="text-3xl font-bold text-indigo-800 mb-6 border-b border-indigo-100 pb-4">مرحبًا بك في تدريبات المصادر</h2>
+                <div class="prose prose-lg text-gray-800 max-w-none leading-relaxed">
+                    <p class="mb-4 text-xl"><strong>المصدر:</strong> هو اسم يدل على حدث مجرد من الزمن (لا يدل على ماضٍ أو مضارع أو أمر).</p>
+                    <p class="mb-6 text-lg">في هذا التطبيق، جمعنا لك تدريبات شاملة وممتعة مقسمة إلى أربعة أقسام رئيسة؛ لتتمكن من إتقان استخراج وصياغة المصادر بأنواعها.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                            <h3 class="text-xl font-bold text-blue-800 mb-2">المصادر الثلاثية</h3>
+                            <p>أغلبها سماعي يُعرف بالرجوع إلى المعاجم، وبعضها قياسي يدل على حرفة، أو امتناع، أو حركة واضطراب، أو داء، أو صوت، أو لون.</p>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-xl border border-green-100">
+                            <h3 class="text-xl font-bold text-green-800 mb-2">المصادر الرباعية</h3>
+                            <p>قياسية دائمًا، ولها أوزان محددة مرتبطة بوزن الفعل (أفعل، فعّل، فاعَل، فعلل).</p>
+                        </div>
+                        <div class="bg-purple-50 p-6 rounded-xl border border-purple-100">
+                            <h3 class="text-xl font-bold text-purple-800 mb-2">المصادر الخماسية والسداسية</h3>
+                            <p>قياسية، تعتمد على مبدأين أساسيين: الأفعال المبدوءة بتاء زائدة، والأفعال المبدوءة بهمزة وصل.</p>
+                        </div>
+                        <div class="bg-orange-50 p-6 rounded-xl border border-orange-100">
+                            <h3 class="text-xl font-bold text-orange-800 mb-2">كيف تستخدم التطبيق؟</h3>
+                            <p>تنقّل بحرية عبر الشريط العلوي. أجب عن أسئلة كل قسم، ثم اضغط على زر "تحقق من الإجابات" لمعرفة التقييم والتوضيح المفصل لكل سؤال.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. المصادر الثلاثية -->
+            <div id="tri" class="tab-content p-6 md:p-8 bg-sky-50/30">
+                <h2 class="text-2xl font-bold text-sky-800 mb-6 border-b border-sky-100 pb-4">تدريبات المصادر الثلاثية</h2>
+                
+                <div class="questions-container" id="container-tri">
+                    <!-- سؤال 1 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="زراعة؛ لأن الفعل (زرع) يدل على حرفة، فمصدره يأتي على وزن (فِعالة).">
+                        <p class="text-xl font-bold mb-4">١- ما مصدر الفعل الثلاثي "زَرَعَ"؟</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q1" value="A"> زراعة
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q1" value="B"> مزارعة
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q1" value="C"> إزراع
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="غَلَيان؛ لأن الفعل (غلى) يدل على حركة واضطراب، فمصدره يأتي على وزن (فَعَلان).">
+                        <p class="text-xl font-bold mb-4">٢- مصدر الفعل "غَلَى" هو:</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q2" value="A"> غُلُو
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q2" value="B"> غَلَيان
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q2" value="C"> إغلاء
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="سُعال؛ لأن الفعل يدل على داء (مرض)، فمصدره يأتي على وزن (فُعال).">
+                        <p class="text-xl font-bold mb-4">٣- كلمة "سُعال" هي مصدر للفعل الثلاثي "سَعَلَ".</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q3" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q3" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="خُضْرَة؛ لأن الفعل (خَضِرَ) يدل على لون، فمصدره يأتي على وزن (فُعْلَة). أما اخضرار فهو مصدر لفعل خماسي (اخضرّ).">
+                        <p class="text-xl font-bold mb-4">٤- ما المصدر الصحيح للفعل "خَضِرَ"؟</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q4" value="A"> اخضرار
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q4" value="B"> خُضْرَة
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q4" value="C"> تَخْضِير
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 5 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="إجابة خاطئة. مصدر الفعل (طار) هو (طَيَران)؛ لأنه يدل على حركة وتقلب (وزن فَعَلان). أما (إطارة) فمصدر لفعل رباعي (أطار).">
+                        <p class="text-xl font-bold mb-4">٥- مصدر الفعل الثلاثي "طَارَ" هو "إطارة".</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q5" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-sky-50 transition-colors border border-transparent hover:border-sky-100 text-lg">
+                                <input type="radio" name="tri_q5" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- منطقة التقييم -->
+                    <div class="submit-area text-center mt-8">
+                        <button onclick="evaluateSection('tri')" class="submit-btn bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition-colors text-lg">تحقق من الإجابات</button>
+                        <div class="score-display hidden mt-6 p-6 bg-sky-100 rounded-xl border border-sky-200"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. المصادر الرباعية -->
+            <div id="quad" class="tab-content p-6 md:p-8 bg-emerald-50/30">
+                <h2 class="text-2xl font-bold text-emerald-800 mb-6 border-b border-emerald-100 pb-4">تدريبات المصادر الرباعية</h2>
+                
+                <div class="questions-container" id="container-quad">
+                    <!-- سؤال 1 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="إِكْرام؛ لأن الفعل على وزن (أَفْعَلَ)، ومصدره يأتي على وزن (إِفْعال). أما تكريم فهو مصدر للفعل (كَرَّمَ).">
+                        <p class="text-xl font-bold mb-4">١- ما مصدر الفعل الرباعي "أَكْرَمَ"؟</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q1" value="A"> تكريم
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q1" value="B"> إكرام
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q1" value="C"> كارم
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="إجابة خاطئة. مصدر الفعل (عَلَّمَ) هو (تَعْلِيم) على وزن تفعيل. أما (إعلام) فهو مصدر للفعل (أَعْلَمَ).">
+                        <p class="text-xl font-bold mb-4">٢- مصدر الفعل "عَلَّمَ" هو "إعلام".</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q2" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q2" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="C" data-explanation="مُجادلة وجِدال؛ لأن الفعل على وزن (فاعَلَ)، ومصدره يأتي على وزن (مُفاعَلَة) و(فِعال).">
+                        <p class="text-xl font-bold mb-4">٣- مصدر الفعل "جَادَلَ":</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q3" value="A"> مُجادلة فقط
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q3" value="B"> جِدال فقط
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q3" value="C"> مُجادلة وجِدال
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="تَرْبِيَة؛ الفعل على وزن (فَعَّلَ) معتل الآخر (ربّى)، ومصدره يأتي على وزن (تَفْعِلَة).">
+                        <p class="text-xl font-bold mb-4">٤- ما المصدر الصحيح للفعل "رَبَّى"؟</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q4" value="A"> تربية
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q4" value="B"> إرباء
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q4" value="C"> ترابي
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 5 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="صواب؛ الفعل مضعف رباعي (فَعْلَلَ)، فمصدره يأتي على وزن (فَعْلَلَة) و(فِعْلال) مثل زَلْزَلَة وزِلْزال.">
+                        <p class="text-xl font-bold mb-4">٥- الفعل "زَلْزَلَ" له مصدران هما: "زَلْزَلَة" و "زِلْزال".</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q5" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100 text-lg">
+                                <input type="radio" name="quad_q5" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- منطقة التقييم -->
+                    <div class="submit-area text-center mt-8">
+                        <button onclick="evaluateSection('quad')" class="submit-btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition-colors text-lg">تحقق من الإجابات</button>
+                        <div class="score-display hidden mt-6 p-6 bg-emerald-100 rounded-xl border border-emerald-200"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. المصادر الخماسية والسداسية -->
+            <div id="penta-hexa" class="tab-content p-6 md:p-8 bg-fuchsia-50/30">
+                <h2 class="text-2xl font-bold text-fuchsia-800 mb-6 border-b border-fuchsia-100 pb-4">تدريبات المصادر الخماسية والسداسية</h2>
+                
+                <div class="questions-container" id="container-penta">
+                    <!-- سؤال 1 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="C" data-explanation="انْطِلاق؛ لأن الفعل خماسي مبدوء بهمزة وصل، نكسر الحرف الثالث ونزيد ألفًا قبل الآخر.">
+                        <p class="text-xl font-bold mb-4">١- مصدر الفعل الخماسي "انْطَلَقَ":</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q1" value="A"> تَطَلُّق
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q1" value="B"> إطلاق
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q1" value="C"> انطِلاق
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="إجابة خاطئة. مصدر (تَعَلَّمَ) هو (تَعَلُّم) بضم ما قبل الآخر؛ لأنه فعل خماسي مبدوء بتاء زائدة. أما (تعليم) فهو مصدر لفعل رباعي (عَلَّمَ).">
+                        <p class="text-xl font-bold mb-4">٢- مصدر الفعل الخماسي "تَعَلَّمَ" هو "تَعْلِيم".</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q2" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q2" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="اسْتِخْراج؛ فعل سداسي مبدوء بهمزة وصل، نكسر ثالثه ونزيد ألفًا قبل آخره.">
+                        <p class="text-xl font-bold mb-4">٣- ما المصدر الصحيح للفعل السداسي "اسْتَخْرَجَ"؟</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q3" value="A"> اسْتِخْراج
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q3" value="B"> تَخْرِيج
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q3" value="C"> خُروج
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="احْمِرار؛ فعل خماسي مبدوء بهمزة وصل (على وزن افعلّ)، مصدره يكون بكسر الحرف الثالث وزيادة ألف قبل الآخر (افعلال).">
+                        <p class="text-xl font-bold mb-4">٤- مصدر الفعل "احْمَرَّ":</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q4" value="A"> احْمِرار
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q4" value="B"> تَحْمِير
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q4" value="C"> حُمْرة
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 5 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="إجابة خاطئة. لأن الفعل (استفاد) معتل ما قبل الآخر، فمصدره السداسي يأتي بزيادة تاء مربوطة في آخره عوضاً عن الألف المحذوفة، فيكون المصدر (اسْتِفَادَة).">
+                        <p class="text-xl font-bold mb-4">٥- مصدر الفعل السداسي "اسْتَفادَ" هو "اسْتِفْياد".</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q5" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-fuchsia-50 transition-colors border border-transparent hover:border-fuchsia-100 text-lg">
+                                <input type="radio" name="ph_q5" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- منطقة التقييم -->
+                    <div class="submit-area text-center mt-8">
+                        <button onclick="evaluateSection('penta-hexa')" class="submit-btn bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition-colors text-lg">تحقق من الإجابات</button>
+                        <div class="score-display hidden mt-6 p-6 bg-fuchsia-100 rounded-xl border border-fuchsia-200"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. تدريبات شاملة -->
+            <div id="comprehensive" class="tab-content p-6 md:p-8 bg-orange-50/30">
+                <h2 class="text-2xl font-bold text-orange-800 mb-6 border-b border-orange-100 pb-4">تدريبات شاملة وعامة</h2>
+                
+                <div class="questions-container" id="container-comp">
+                    <!-- سؤال 1 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="رباعي؛ لأن الفعل الماضي من كلمة (إِحْسان) هو (أَحْسَنَ) وهو يتكون من أربعة أحرف.">
+                        <p class="text-xl font-bold mb-4">١- كلمة "إِحْسان" مصدر لفعل:</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q1" value="A"> ثلاثي
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q1" value="B"> رباعي
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q1" value="C"> خماسي
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="خماسي؛ الفعل الماضي هو (اسْتَمَعَ). حروفه (ا-س-ت-م-ع). السين أصلية من مادة (س-م-ع) وليست زائدة كأفعال السداسي المعتادة.">
+                        <p class="text-xl font-bold mb-4">٢- انتبه جيدًا: المصدر "اسْتِماع" فعله:</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q2" value="A"> سداسي
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q2" value="B"> خماسي
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q2" value="C"> رباعي
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="C" data-explanation="الاجتهاد؛ فعله (اجتهد) خماسي. أما (النجاح) فمصدر ثلاثي (نجح). دائمًا وثمرة ليستا مصادر هنا.">
+                        <p class="text-xl font-bold mb-4">٣- "النجاح دائمًا ثمرة الاجتهاد الواضح". أين المصدر الخماسي في هذه الجملة؟</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q3" value="A"> النجاح
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q3" value="B"> دائمًا
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q3" value="C"> الاجتهاد
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="B" data-explanation="إجابة خاطئة. (إدارة) مصدر لفعل رباعي هو (أدارَ)، على وزن (إفْعَلَة) أو (إفَالَة).">
+                        <p class="text-xl font-bold mb-4">٤- كلمة "إدارة" هي مصدر لفعل خماسي.</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q4" value="A"> صواب
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q4" value="B"> خطأ
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- سؤال 5 -->
+                    <div class="question-block mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100" data-correct="A" data-explanation="اطْمِئْنان؛ الفعل سداسي (اطمأنّ، النون مضعفة). وزنه (افْعَلَلَّ) ومصدره (افْعِلْلال).">
+                        <p class="text-xl font-bold mb-4">٥- مصدر الفعل "اطْمَأَنَّ" هو:</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q5" value="A"> اطْمِئْنان
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q5" value="B"> طُمَأْنينة
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-100 text-lg">
+                                <input type="radio" name="comp_q5" value="C"> مُطَمْئِن
+                            </label>
+                        </div>
+                        <div class="feedback hidden mt-4 p-4 rounded-lg"></div>
+                    </div>
+
+                    <!-- منطقة التقييم -->
+                    <div class="submit-area text-center mt-8">
+                        <button onclick="evaluateSection('comprehensive')" class="submit-btn bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-xl shadow-md transition-colors text-lg">تحقق من الإجابات</button>
+                        <div class="score-display hidden mt-6 p-6 bg-orange-100 rounded-xl border border-orange-200"></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        
+        <!-- تذييل الصفحة -->
+        <footer class="text-center text-gray-500 mt-8 mb-4 text-sm">
+            تم إعداد هذا التطبيق لتيسير تعلم اللغة العربية بأسلوب تفاعلي وممتع.
+        </footer>
+    </div>
+
+    <script>
+        // دالة التنقل بين التبويبات
+        function openTab(tabId) {
+            // إخفاء جميع المحتويات
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            
+            // إعادة نمط الأزرار للحالة الافتراضية
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                el.classList.add('bg-gray-50', 'text-gray-700');
+            });
+
+            // إظهار المحتوى المطلوب
+            document.getElementById(tabId).classList.add('active');
+
+            // تحديث نمط الزر النشط
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('bg-gray-50', 'text-gray-700');
+            activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+        }
+
+        // دالة تقييم القسم
+        function evaluateSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const questions = section.querySelectorAll('.question-block');
+            let score = 0;
+            let answeredAll = true;
+
+            // إزالة رسائل التحذير السابقة إن وجدت
+            const oldWarning = section.querySelector('.warning-msg');
+            if (oldWarning) oldWarning.remove();
+
+            // التحقق من الإجابة عن جميع الأسئلة
+            questions.forEach(q => {
+                const checked = q.querySelector('input[type="radio"]:checked');
+                if (!checked) answeredAll = false;
+            });
+
+            // إذا لم يجب الطالب عن كل الأسئلة
+            if (!answeredAll) {
+                const warning = document.createElement('div');
+                warning.className = 'warning-msg bg-yellow-100 text-yellow-800 p-4 rounded-xl mb-6 font-bold border border-yellow-300 text-center text-lg';
+                warning.innerText = 'عفوًا، يرجى الإجابة عن جميع الأسئلة في هذا القسم قبل عرض النتيجة.';
+                section.querySelector('.submit-area').insertAdjacentElement('beforebegin', warning);
+                return;
+            }
+
+            // تقييم الإجابات وعرض التوضيحات
+            questions.forEach(q => {
+                const checked = q.querySelector('input[type="radio"]:checked');
+                const correctVal = q.getAttribute('data-correct');
+                const explanation = q.getAttribute('data-explanation');
+                const feedbackDiv = q.querySelector('.feedback');
+                const options = q.querySelectorAll('input[type="radio"]');
+
+                // تعطيل الخيارات بعد التقييم
+                options.forEach(opt => {
+                    opt.disabled = true;
+                    // تظليل الخيار الصحيح للمستخدم حتى لو أخطأ
+                    if(opt.value === correctVal) {
+                        opt.parentElement.classList.add('font-bold', 'text-green-700');
+                    }
+                });
+
+                // إزالة الأنماط القديمة من التغذية الراجعة
+                feedbackDiv.classList.remove('hidden', 'bg-green-50', 'text-green-800', 'bg-red-50', 'text-red-800', 'border-green-200', 'border-red-200');
+
+                // بناء أيقونات SVG للصح والخطأ
+                const successIcon = `<svg class="w-8 h-8 text-green-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                const errorIcon = `<svg class="w-8 h-8 text-red-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+                if (checked.value === correctVal) {
+                    score++;
+                    feedbackDiv.classList.add('bg-green-50', 'text-green-900', 'border', 'border-green-200');
+                    feedbackDiv.innerHTML = `
+                        <div class="flex items-start gap-3">
+                            ${successIcon}
+                            <div>
+                                <p class="text-xl font-bold mb-2 text-green-700">إجابة صحيحة</p>
+                                <p class="text-lg leading-relaxed"><strong class="text-green-800">التوضيح:</strong> ${explanation}</p>
+                            </div>
+                        </div>`;
+                } else {
+                    // تظليل الخيار الخاطئ الذي اختاره
+                    checked.parentElement.classList.add('text-red-600', 'line-through');
+                    
+                    feedbackDiv.classList.add('bg-red-50', 'text-red-900', 'border', 'border-red-200');
+                    feedbackDiv.innerHTML = `
+                        <div class="flex items-start gap-3">
+                            ${errorIcon}
+                            <div>
+                                <p class="text-xl font-bold mb-2 text-red-700">إجابة خاطئة</p>
+                                <p class="text-lg leading-relaxed"><strong class="text-red-800">التوضيح:</strong> ${explanation}</p>
+                            </div>
+                        </div>`;
+                }
+            });
+
+            // إخفاء زر التقييم وإظهار النتيجة النهائية
+            section.querySelector('.submit-btn').classList.add('hidden');
+            const scoreDiv = section.querySelector('.score-display');
+            scoreDiv.classList.remove('hidden');
+
+            // اختيار كلمة تشجيعية (بدون تنوين حسب التعليمات)
+            let evaluationWord = "عمل رائع";
+            if (score === questions.length) {
+                evaluationWord = "ممتاز";
+            } else if (score < questions.length / 2) {
+                evaluationWord = "حاول مرة أخرى لتتحسن";
+            } else if (score >= questions.length / 2) {
+                evaluationWord = "جيد جدا";
+            }
+
+            scoreDiv.innerHTML = `
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-2">النتيجة: <span class="text-indigo-600">${score}</span> من <span class="text-indigo-600">${questions.length}</span></h3>
+                <span class="text-xl font-bold text-gray-600 mt-2 block text-center">${evaluationWord}</span>
+                <button onclick="resetSection('${sectionId}')" class="mt-6 bg-white border-2 border-indigo-600 text-indigo-700 hover:bg-indigo-50 font-bold py-2 px-6 rounded-xl transition-colors">إعادة الاختبار</button>
+            `;
+        }
+
+        // دالة لإعادة تهيئة القسم للتجربة مرة أخرى
+        function resetSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const questions = section.querySelectorAll('.question-block');
+
+            questions.forEach(q => {
+                const options = q.querySelectorAll('input[type="radio"]');
+                options.forEach(opt => {
+                    opt.checked = false;
+                    opt.disabled = false;
+                    opt.parentElement.classList.remove('font-bold', 'text-green-700', 'text-red-600', 'line-through');
+                });
+                const feedbackDiv = q.querySelector('.feedback');
+                feedbackDiv.classList.add('hidden');
+                feedbackDiv.innerHTML = '';
+            });
+
+            section.querySelector('.submit-btn').classList.remove('hidden');
+            section.querySelector('.score-display').classList.add('hidden');
+            
+            // تمرير الشاشة لبداية القسم
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
