@@ -82,16 +82,17 @@
             <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-indigo-50 rounded-full opacity-60"></div>
             <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-24 h-24 bg-rose-50 rounded-full opacity-60"></div>
             
-            <div class="relative z-10 flex flex-col items-center justify-center space-y-4">
+            <div class="relative z-10 flex flex-col items-center justify-center space-y-2">
+                <!-- تم إزالة الخلفية والحدود من رابط "العربية السهلة" -->
                 <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center justify-center gap-3 bg-red-50 hover:bg-red-100 text-red-700 px-8 py-4 rounded-2xl transition-all duration-300 border border-red-100 shadow-sm font-bold text-3xl hover:-translate-y-1">
+                   class="inline-flex items-center justify-center gap-3 text-red-700 hover:text-red-800 px-4 py-2 transition-all duration-300 font-bold text-3xl hover:-translate-y-1">
                     <!-- شعار يوتيوب SVG -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
                     العربية السهلة
                 </a>
-                <p class="text-3xl text-slate-900 font-bold tracking-wide">محمود صلاح</p>
+                <p class="text-3xl text-slate-900 font-bold tracking-wide mt-2">محمود صلاح</p>
             </div>
         </header>
 
@@ -133,7 +134,7 @@
                         </div>
                         <div class="bg-[#fff7ed] p-8 rounded-2xl border border-[#fed7aa]">
                             <h3 class="text-2xl font-bold text-[#c2410c] mb-4">طريقة الاستخدام</h3>
-                            <p class="text-xl font-medium leading-relaxed text-slate-800">اختر القسم من الأعلى. يمكنك الضغط على زر <strong class="text-amber-600">(التلميح 💡)</strong> للمساعدة. سيظهر التقييم والشرح فورًا أسفل كل سؤال.</p>
+                            <p class="text-xl font-medium leading-relaxed text-slate-800">اختر القسم من الأعلى. يمكنك الضغط على زر التلميح للمساعدة. سيظهر التقييم والشرح فورًا أسفل كل سؤال.</p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +188,7 @@
             });
         }
 
-        // 1. قاعدة بيانات الأسئلة (مع الالتزام بالضوابط اللغوية الدقيقة)
+        // 1. قاعدة بيانات الأسئلة 
         const quizData = {
             'tri': [
                 { 
@@ -406,7 +407,8 @@
         // أيقونات SVG نقية
         const iconSuccess = `<svg class="w-10 h-10 text-emerald-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`;
         const iconError = `<svg class="w-10 h-10 text-red-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
-        const iconLightbulb = `<svg class="w-7 h-7 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg> 💡`;
+        // تم استخدام أيقونة واحدة فقط لتجنب التكرار
+        const iconLightbulb = `<svg class="w-7 h-7 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>`;
 
         // 3. بناء الواجهة
         function buildQuiz(sectionId) {
@@ -416,14 +418,12 @@
             const questions = quizData[sectionId];
             
             questions.forEach((qItem, qIndex) => {
-                // رقم السؤال بالعربي
                 const arabicQNum = toArabicDigits(qIndex + 1);
 
                 const questionCard = document.createElement('div');
                 questionCard.className = 'bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300';
                 questionCard.id = `card-${sectionId}-${qIndex}`;
 
-                // رأس السؤال والتلميح
                 const qHeader = document.createElement('div');
                 qHeader.className = 'flex justify-between items-start gap-4 mb-6';
                 
@@ -431,9 +431,8 @@
                 questionText.className = 'text-2xl md:text-3xl font-bold text-slate-800 leading-relaxed';
                 questionText.innerHTML = `<span class="text-indigo-700 font-bold ml-2">${arabicQNum}-</span> ${qItem.q}`;
                 
-                // زر التلميح
                 const hintBtn = document.createElement('button');
-                hintBtn.className = 'hint-btn shrink-0 text-amber-500 hover:text-amber-600 hover:bg-amber-50 px-4 py-2 rounded-xl transition-colors focus:outline-none flex items-center gap-2 font-bold border border-amber-100';
+                hintBtn.className = 'hint-btn shrink-0 text-amber-500 hover:text-amber-600 hover:bg-amber-50 px-3 py-2 rounded-xl transition-colors focus:outline-none flex items-center justify-center font-bold border border-amber-100';
                 hintBtn.title = 'عرض التلميح';
                 hintBtn.innerHTML = iconLightbulb;
                 hintBtn.onclick = () => toggleHint(sectionId, qIndex);
@@ -442,14 +441,12 @@
                 qHeader.appendChild(hintBtn);
                 questionCard.appendChild(qHeader);
 
-                // منطقة التلميح (مخفية)
                 const hintDiv = document.createElement('div');
                 hintDiv.id = `hint-${sectionId}-${qIndex}`;
                 hintDiv.className = 'hidden mb-6 p-5 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 font-medium text-xl reveal-box';
                 hintDiv.innerHTML = `<strong class="font-bold">تلميح:</strong> ${qItem.hint}`;
                 questionCard.appendChild(hintDiv);
 
-                // الخيارات
                 const optionsContainer = document.createElement('div');
                 optionsContainer.className = 'space-y-4';
 
@@ -474,7 +471,6 @@
 
                 questionCard.appendChild(optionsContainer);
 
-                // منطقة التغذية الراجعة
                 const feedbackDiv = document.createElement('div');
                 feedbackDiv.className = 'feedback-box hidden mt-6 p-6 rounded-xl border-2 reveal-box';
                 questionCard.appendChild(feedbackDiv);
@@ -498,16 +494,9 @@
             if (cardElement.dataset.answered === 'true') return;
             cardElement.dataset.answered = 'true';
 
-            // إخفاء التلميح إن كان ظاهراً
-            const hintDiv = document.getElementById(`hint-${sectionId}-${qIndex}`);
-            if(hintDiv) hintDiv.classList.add('hidden');
-
             const feedbackDiv = cardElement.querySelector('.feedback-box');
             const allLabels = cardElement.querySelectorAll('label');
             const allRadios = cardElement.querySelectorAll('input[type="radio"]');
-            const hintBtn = cardElement.querySelector('.hint-btn');
-
-            if(hintBtn) hintBtn.style.display = 'none'; // إخفاء زر التلميح بعد الإجابة
 
             const isCorrect = (selectedOptIndex === qDataObj.correct);
 
