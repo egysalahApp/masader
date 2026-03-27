@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تدريبات المصادر - العربية السهلة</title>
     
-    <!-- استدعاء Tailwind CSS -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- استدعاء خط Readex Pro بجميع أوزانه حصرياً -->
+    <!-- Readex Pro Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -19,6 +19,14 @@
                 extend: {
                     fontFamily: {
                         'readex': ['"Readex Pro"', 'sans-serif'],
+                    },
+                    colors: {
+                        pastel: {
+                            blue: '#f0f9ff',
+                            green: '#ecfdf5',
+                            purple: '#fdf4ff',
+                            orange: '#fff7ed'
+                        }
                     }
                 }
             }
@@ -26,30 +34,39 @@
     </script>
 
     <style>
-        /* الاعتماد الكلي على خط Readex Pro */
         body {
             font-family: 'Readex Pro', sans-serif;
-            background-color: #fdfbfb; /* لون خلفية أبيض هادئ جداً */
-            color: #0f172a; /* لون نص غامق وواضح */
+            background-color: #fdfbfb;
+            color: #0f172a;
         }
         
         input[type="radio"] {
             accent-color: #4f46e5;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
             cursor: pointer;
         }
 
-        /* تنسيقات التبويبات */
+        /* إخفاء شريط التمرير للتبويبات مع الحفاظ على التمرير الوظيفي للهواتف */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* تنسيق التبويبات والمحتوى */
         .tab-content {
             display: none;
             opacity: 0;
-            transition: opacity 0.4s ease-in-out;
+            transition: opacity 0.3s ease;
+            scroll-margin-top: 60px; /* تم التعديل إلى 60px لضمان رفع الترويسة بالكامل خارج الشاشة */
         }
         .tab-content.active {
             display: block;
             opacity: 1;
-            animation: fadeIn 0.4s ease-in-out;
+            animation: fadeIn 0.4s ease-out forwards;
         }
 
         @keyframes fadeIn {
@@ -57,7 +74,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* تأثير ظهور التلميح والتغذية الراجعة */
         .reveal-box {
             animation: slideDown 0.3s ease-out forwards;
         }
@@ -65,445 +81,308 @@
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* تحسين مظهر شريط التمرير */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col font-readex text-lg">
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex-grow w-full">
+    <!-- الترويسة (تتحرك مع الصفحة وتختفي عند التمرير) -->
+    <header class="w-full text-center py-6 bg-white">
+        <div class="flex flex-col items-center justify-center space-y-1">
+            <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" 
+               class="inline-flex items-center justify-center gap-2 text-red-700 hover:text-red-800 transition-colors font-bold text-2xl">
+                <span>العربية السهلة</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 shrink-0">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+            </a>
+            <p class="text-lg font-bold text-slate-600">محمود صلاح</p>
+        </div>
+    </header>
+
+    <!-- شريط التنقل الثابت (Sticky) -->
+    <div class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-4">
+            <nav class="flex flex-nowrap overflow-x-auto hide-scrollbar py-1 items-center gap-2 md:justify-center" id="tabs-container">
+                <button data-target="tri" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-indigo-600 text-white shadow-sm">المصادر الثلاثية</button>
+                <button data-target="quad" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-slate-50 text-slate-700 hover:bg-indigo-50">المصادر الرباعية</button>
+                <button data-target="penta-hexa" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-slate-50 text-slate-700 hover:bg-indigo-50">الخماسية والسداسية</button>
+                <button data-target="comprehensive" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-slate-50 text-slate-700 hover:bg-indigo-50">تدريبات شاملة</button>
+            </nav>
+        </div>
+        <!-- شريط التقدم -->
+        <div class="h-[2px] w-full bg-gray-100">
+            <div id="progress-bar" class="h-full bg-indigo-600 transition-all duration-300 w-0"></div>
+        </div>
+    </div>
+
+    <!-- الحاوية الرئيسية للمحتوى -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 w-full mt-6 mb-12 flex-grow">
         
-        <!-- الترويسة (متحركة مع التمرير وليست ثابتة) -->
-        <header class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 text-center mb-6 relative overflow-hidden">
-            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-indigo-50 rounded-full opacity-60"></div>
-            <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-24 h-24 bg-rose-50 rounded-full opacity-60"></div>
+        <!-- الأقسام -->
+        <main class="w-full">
             
-            <div class="relative z-10 flex flex-col items-center justify-center space-y-2">
-                <!-- تم إزالة الخلفية والحدود من رابط "العربية السهلة" -->
-                <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center justify-center gap-3 text-red-700 hover:text-red-800 px-4 py-2 transition-all duration-300 font-bold text-3xl hover:-translate-y-1">
-                    <!-- شعار يوتيوب SVG -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                    العربية السهلة
-                </a>
-                <p class="text-3xl text-slate-900 font-bold tracking-wide mt-2">محمود صلاح</p>
-            </div>
-        </header>
-
-        <!-- شريط التنقل العلوي (متحرك مع الصفحة ليوفر المساحة) -->
-        <nav class="flex flex-wrap justify-center gap-3 mb-8 bg-white p-3 rounded-2xl shadow-sm border border-gray-100" id="tabs-container">
-            <button data-target="intro" class="tab-btn px-6 py-3 rounded-xl font-bold text-xl transition-all duration-200 bg-indigo-600 text-white shadow-md">الرئيسية</button>
-            <button data-target="tri" class="tab-btn px-6 py-3 rounded-xl font-bold text-xl transition-all duration-200 bg-slate-50 text-slate-800 hover:bg-indigo-50 hover:text-indigo-900 border border-slate-200">المصادر الثلاثية</button>
-            <button data-target="quad" class="tab-btn px-6 py-3 rounded-xl font-bold text-xl transition-all duration-200 bg-slate-50 text-slate-800 hover:bg-indigo-50 hover:text-indigo-900 border border-slate-200">المصادر الرباعية</button>
-            <button data-target="penta-hexa" class="tab-btn px-6 py-3 rounded-xl font-bold text-xl transition-all duration-200 bg-slate-50 text-slate-800 hover:bg-indigo-50 hover:text-indigo-900 border border-slate-200">الخماسية والسداسية</button>
-            <button data-target="comprehensive" class="tab-btn px-6 py-3 rounded-xl font-bold text-xl transition-all duration-200 bg-slate-50 text-slate-800 hover:bg-indigo-50 hover:text-indigo-900 border border-slate-200">تدريبات شاملة</button>
-        </nav>
-
-        <!-- المحتوى -->
-        <main class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-            
-            <!-- 1. الرئيسية -->
-            <div id="intro" class="tab-content active p-8 md:p-10 bg-slate-50/50">
-                <!-- العنوان الرئيسي يظهر هنا فقط في الصفحة الأولى -->
+            <!-- 1. المصادر الثلاثية -->
+            <div id="tri" class="tab-content active bg-pastel-blue/40 p-6 md:p-8 rounded-3xl border border-blue-100">
+                <!-- العنوان الرئيسي للتطبيق يظهر في الصفحة الأولى فقط -->
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-indigo-50/80 inline-block px-8 py-4 rounded-2xl border border-indigo-100 shadow-sm">تدريبات تفاعلية على المصادر</h1>
+                    <h1 class="text-3xl md:text-4xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm">تدريبات تفاعلية على المصادر</h1>
                 </div>
 
-                <div class="text-slate-900 leading-loose">
-                    <p class="mb-6 text-2xl font-medium"><strong class="text-indigo-800 font-bold">المصدر:</strong> هو اسم يدل على حدث مجرد من الزمن (لا يدل على ماضٍ أو مضارع أو أمر).</p>
-                    <p class="mb-8 text-xl font-medium">في هذا التطبيق، جمعنا لك تدريبات شاملة وممتعة مقسمة إلى أربعة أقسام رئيسة؛ لتتمكن من إتقان استخراج وصياغة المصادر بأنواعها.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                        <div class="bg-[#f0f9ff] p-8 rounded-2xl border border-[#bae6fd]">
-                            <h3 class="text-2xl font-bold text-[#0369a1] mb-4">المصادر الثلاثية</h3>
-                            <p class="text-xl font-medium leading-relaxed text-slate-800">أغلبها سماعي يُعرف بالرجوع إلى المعاجم، وبعضها قياسي يدل على حرفة، أو امتناع، أو حركة واضطراب، أو داء، أو صوت، أو لون.</p>
-                        </div>
-                        <div class="bg-[#ecfdf5] p-8 rounded-2xl border border-[#a7f3d0]">
-                            <h3 class="text-2xl font-bold text-[#047857] mb-4">المصادر الرباعية</h3>
-                            <p class="text-xl font-medium leading-relaxed text-slate-800">قياسية دائمًا، ولها أوزان محددة مرتبطة بوزن الفعل (أفعل، فعّل، فاعَل، فعلل).</p>
-                        </div>
-                        <div class="bg-[#fdf4ff] p-8 rounded-2xl border border-[#f5d0fe]">
-                            <h3 class="text-2xl font-bold text-[#86198f] mb-4">الخماسية والسداسية</h3>
-                            <p class="text-xl font-medium leading-relaxed text-slate-800">قياسية، تعتمد على مبدأين أساسيين: الأفعال المبدوءة بتاء زائدة، والأفعال المبدوءة بهمزة وصل.</p>
-                        </div>
-                        <div class="bg-[#fff7ed] p-8 rounded-2xl border border-[#fed7aa]">
-                            <h3 class="text-2xl font-bold text-[#c2410c] mb-4">طريقة الاستخدام</h3>
-                            <p class="text-xl font-medium leading-relaxed text-slate-800">اختر القسم من الأعلى. يمكنك الضغط على زر التلميح للمساعدة. سيظهر التقييم والشرح فورًا أسفل كل سؤال.</p>
-                        </div>
-                    </div>
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-blue-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-blue-100">المصادر الثلاثية</h2>
+                </div>
+                <div id="quiz-tri" class="space-y-6"></div>
+                <div id="end-tri" class="hidden mt-8 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+                    <button onclick="resetSection('tri')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('quad')" class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
                 </div>
             </div>
 
-            <!-- 2. المصادر الثلاثية -->
-            <div id="tri" class="tab-content p-6 md:p-10 bg-[#f0f9ff]/40">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#0369a1] mb-8 border-b-2 border-[#bae6fd] pb-4">تدريبات المصادر الثلاثية</h2>
-                <div id="quiz-tri" class="space-y-8"></div>
-                <div id="score-tri" class="hidden mt-10 p-8 bg-[#e0f2fe] rounded-2xl border-2 border-[#7dd3fc] text-center"></div>
+            <!-- 2. المصادر الرباعية -->
+            <div id="quad" class="tab-content bg-pastel-green/40 p-6 md:p-8 rounded-3xl border border-emerald-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl md:text-3xl font-bold text-emerald-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-emerald-100">المصادر الرباعية</h1>
+                </div>
+                <div id="quiz-quad" class="space-y-6"></div>
+                <div id="end-quad" class="hidden mt-8 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+                    <button onclick="resetSection('quad')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('penta-hexa')" class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                </div>
             </div>
 
-            <!-- 3. المصادر الرباعية -->
-            <div id="quad" class="tab-content p-6 md:p-10 bg-[#ecfdf5]/40">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#047857] mb-8 border-b-2 border-[#a7f3d0] pb-4">تدريبات المصادر الرباعية</h2>
-                <div id="quiz-quad" class="space-y-8"></div>
-                <div id="score-quad" class="hidden mt-10 p-8 bg-[#d1fae5] rounded-2xl border-2 border-[#6ee7b7] text-center"></div>
+            <!-- 3. الخماسية والسداسية -->
+            <div id="penta-hexa" class="tab-content bg-pastel-purple/40 p-6 md:p-8 rounded-3xl border border-fuchsia-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl md:text-3xl font-bold text-fuchsia-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-fuchsia-100">الخماسية والسداسية</h1>
+                </div>
+                <div id="quiz-penta-hexa" class="space-y-6"></div>
+                <div id="end-penta-hexa" class="hidden mt-8 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+                    <button onclick="resetSection('penta-hexa')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('comprehensive')" class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                </div>
             </div>
 
-            <!-- 4. المصادر الخماسية والسداسية -->
-            <div id="penta-hexa" class="tab-content p-6 md:p-10 bg-[#fdf4ff]/40">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#86198f] mb-8 border-b-2 border-[#f5d0fe] pb-4">تدريبات المصادر الخماسية والسداسية</h2>
-                <div id="quiz-penta-hexa" class="space-y-8"></div>
-                <div id="score-penta-hexa" class="hidden mt-10 p-8 bg-[#fae8ff] rounded-2xl border-2 border-[#f0abfc] text-center"></div>
+            <!-- 4. تدريبات شاملة -->
+            <div id="comprehensive" class="tab-content bg-pastel-orange/40 p-6 md:p-8 rounded-3xl border border-orange-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl md:text-3xl font-bold text-orange-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-orange-100">تدريبات شاملة وعامة</h1>
+                </div>
+                <div id="quiz-comprehensive" class="space-y-6"></div>
+                <div id="end-comprehensive" class="hidden mt-8 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-8 flex justify-center">
+                    <button onclick="resetSection('comprehensive')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-8 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                </div>
             </div>
 
-            <!-- 5. تدريبات شاملة -->
-            <div id="comprehensive" class="tab-content p-6 md:p-10 bg-[#fff7ed]/40">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#c2410c] mb-8 border-b-2 border-[#fed7aa] pb-4">تدريبات شاملة وعامة</h2>
-                <div id="quiz-comprehensive" class="space-y-8"></div>
-                <div id="score-comprehensive" class="hidden mt-10 p-8 bg-[#ffedd5] rounded-2xl border-2 border-[#fdba74] text-center"></div>
+            <!-- النتيجة الإجمالية تظهر في النهاية -->
+            <div id="final-summary" class="hidden mt-10 p-8 bg-indigo-50 rounded-3xl border-2 border-indigo-200 text-center reveal-box">
+                <h2 class="text-3xl font-bold text-indigo-900 mb-4">أنهيت جميع التدريبات!</h2>
+                <div id="final-score-text" class="text-4xl font-bold text-indigo-700 mb-4" dir="ltr"></div>
+                <p class="text-xl text-indigo-800 font-semibold">مجهود رائع، استمر في التدرب لتحقيق التميز دائمًا.</p>
             </div>
 
         </main>
     </div>
-        
+
     <!-- تذييل الصفحة -->
-    <footer class="bg-white border-t border-gray-200 py-6 text-center mt-auto w-full">
-        <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" class="text-xl font-bold text-slate-700 hover:text-indigo-700 transition-colors">
+    <footer class="bg-white border-t border-gray-200 py-6 text-center w-full mt-auto">
+        <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-slate-600 hover:text-red-700 transition-colors">
             جميع الحقوق محفوظة لقناة العربية السهلة
         </a>
     </footer>
 
     <!-- جافاسكريبت التطبيق -->
     <script>
-        // دالة تحويل الأرقام الإنجليزية إلى أرقام عربية (١، ٢، ٣...)
+        // دالة تحويل الأرقام الإنجليزية للعربية في واجهة المستخدم
         const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
         function toArabicDigits(num) {
-            return String(num).replace(/[0-9]/g, function(w) {
-                return arabicNumbers[+w];
-            });
+            return String(num).replace(/[0-9]/g, w => arabicNumbers[+w]);
         }
 
-        // 1. قاعدة بيانات الأسئلة 
+        // دالة لخلط المصفوفة عشوائياً (Shuffle)
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // بيانات الأسئلة 
         const quizData = {
             'tri': [
-                { 
-                    q: 'ما مصدر الفعل الثلاثي "زَرَعَ"؟', 
-                    options: ['زراعة', 'مزارعة', 'إزراع'], 
-                    correct: 0, 
-                    hint: 'الفعل يدل على حرفة أو مهنة، فتذكر الوزن الخاص بها.',
-                    explanation: 'لأن الفعل (زرع) يدل على حرفة، فمصدره القياسي يأتي على وزن (فِعالة).' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "غَلَى"؟', 
-                    options: ['غُلُو', 'غَلَيان', 'إغلاء'], 
-                    correct: 1, 
-                    hint: 'الماء عندما يغلي يحدث له حركة واضطراب.',
-                    explanation: 'لأن الفعل (غلى) يدل على حركة واضطراب، فمصدره يأتي على وزن (فَعَلان).' 
-                },
-                { 
-                    q: 'كلمة "سُعال" هي مصدر للفعل الثلاثي "سَعَلَ".', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 0, 
-                    hint: 'هل يدل الفعل على داء أو مرض؟',
-                    explanation: 'لأن الفعل يدل على داء (مرض)، فمصدره القياسي يأتي على وزن (فُعال).' 
-                },
-                { 
-                    q: 'ما المصدر الصحيح للفعل "خَضِرَ"؟', 
-                    options: ['اخضرار', 'خُضْرَة', 'تَخْضِير'], 
-                    correct: 1, 
-                    hint: 'الفعل هنا ثلاثي، تذكر وزن ما دل على لون.',
-                    explanation: 'لأن الفعل (خَضِرَ) ثلاثي يدل على لون، فمصدره يأتي على وزن (فُعْلَة). أما "اخضرار" فهو مصدر لفعل خماسي (اخضرّ).' 
-                },
-                { 
-                    q: 'مصدر الفعل الثلاثي "طَارَ" هو "إطارة".', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 1, 
-                    hint: 'الفعل يدل على حركة، فهل (إطارة) تدل على حركة على وزن (فعلان)؟',
-                    explanation: 'مصدر الفعل (طار) هو (طَيَران)؛ لأنه يدل على حركة وتقلب (وزن فَعَلان). أما (إطارة) فمصدر لفعل رباعي (أطار).' 
-                },
-                { 
-                    q: 'على أي شيء يدل مصدر الفعل "زَئير"؟', 
-                    options: ['لون', 'صوت', 'حرفة'], 
-                    correct: 1, 
-                    hint: 'ماذا نسمي ما يصدره الأسد؟',
-                    explanation: 'زئير هو صوت الأسد، والفعل (زأَرَ) يدل على صوت، فمصدره يأتي على وزن (فَعِيل).' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "صَنَعَ"؟', 
-                    options: ['تصنيع', 'اصطناع', 'صِناعَة'], 
-                    correct: 2, 
-                    hint: 'الصنع حرفة، تذكر وزن مصادر الحرف.',
-                    explanation: 'لأن الفعل يدل على حرفة، ومصدر ما دل على حرفة يأتي على وزن (فِعالة).' 
-                }
+                { q: 'ما مصدر الفعل الثلاثي "زَرَعَ"؟', options: ['زراعة', 'مزارعة', 'إزراع'], correctIndex: 0, hint: 'الفعل يدل على حرفة أو مهنة، فتذكر الوزن الخاص بها.', explanation: 'لأن الفعل (زرع) يدل على حرفة، فمصدره القياسي يأتي على وزن (فِعالة).' },
+                { q: 'ما مصدر الفعل "غَلَى"؟', options: ['غُلُو', 'غَلَيان', 'إغلاء'], correctIndex: 1, hint: 'الماء عندما يغلي يحدث له حركة واضطراب.', explanation: 'لأن الفعل (غلى) يدل على حركة واضطراب، فمصدره يأتي على وزن (فَعَلان).' },
+                { q: 'كلمة "سُعال" هي مصدر للفعل الثلاثي "سَعَلَ".', options: ['صواب', 'خطأ'], correctIndex: 0, hint: 'هل يدل الفعل على داء أو مرض؟', explanation: 'لأن الفعل يدل على داء (مرض)، فمصدره القياسي يأتي على وزن (فُعال).' },
+                { q: 'ما المصدر الصحيح للفعل "خَضِرَ"؟', options: ['اخضرار', 'خُضْرَة', 'تَخْضِير'], correctIndex: 1, hint: 'الفعل هنا ثلاثي، تذكر وزن ما دل على لون.', explanation: 'لأن الفعل (خَضِرَ) ثلاثي يدل على لون، فمصدره يأتي على وزن (فُعْلَة). أما "اخضرار" فهو مصدر لفعل خماسي (اخضرّ).' },
+                { q: 'مصدر الفعل الثلاثي "طَارَ" هو "إطارة".', options: ['صواب', 'خطأ'], correctIndex: 1, hint: 'الفعل يدل على حركة، فهل (إطارة) تدل على حركة على وزن (فعلان)؟', explanation: 'مصدر الفعل (طار) هو (طَيَران)؛ لأنه يدل على حركة وتقلب (وزن فَعَلان). أما (إطارة) فمصدر لفعل رباعي (أطار).' },
+                { q: 'على أي شيء يدل مصدر الفعل "زَئير"؟', options: ['لون', 'صوت', 'حرفة'], correctIndex: 1, hint: 'ماذا نسمي ما يصدره الأسد؟', explanation: 'زئير هو صوت الأسد، والفعل (زأَرَ) يدل على صوت، فمصدره يأتي على وزن (فَعِيل).' },
+                { q: 'ما مصدر الفعل "صَنَعَ"؟', options: ['تصنيع', 'اصطناع', 'صِناعَة'], correctIndex: 2, hint: 'الصنع حرفة، تذكر وزن مصادر الحرف.', explanation: 'لأن الفعل يدل على حرفة، ومصدر ما دل على حرفة يأتي على وزن (فِعالة).' }
             ],
             'quad': [
-                { 
-                    q: 'ما مصدر الفعل الرباعي "أَكْرَمَ"؟', 
-                    options: ['تكريم', 'إكرام', 'مُكارمة'], 
-                    correct: 1, 
-                    hint: 'الفعل على وزن (أفعل)، فما وزن مصدره؟',
-                    explanation: 'لأن الفعل على وزن (أَفْعَلَ) وصحيح العين، ومصدره يأتي على وزن (إِفْعال).' 
-                },
-                { 
-                    q: 'مصدر الفعل "عَلَّمَ" هو "إعلام".', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 1, 
-                    hint: 'الفعل مضعف الوسط (فعّل)، تذكر الوزن الصحيح.',
-                    explanation: 'مصدر الفعل (عَلَّمَ) هو (تَعْلِيم) على وزن تفعيل. أما (إعلام) فهو مصدر للفعل (أَعْلَمَ).' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "جَادَلَ"؟', 
-                    options: ['مُجادلة فقط', 'جِدال فقط', 'مُجادلة وجِدال'], 
-                    correct: 2, 
-                    hint: 'الفعل على وزن (فاعَلَ)، وهذا الوزن له أكثر من صورة للمصدر.',
-                    explanation: 'لأن الفعل على وزن (فاعَلَ)، ومصدره القياسي يأتي على صورتين: (مُفاعَلَة) و(فِعال).' 
-                },
-                { 
-                    q: 'ما المصدر الصحيح للفعل "رَبَّى"؟', 
-                    options: ['تربية', 'إرباء', 'تَرابٍ'], 
-                    correct: 0, 
-                    hint: 'الفعل على وزن (فعّل) ولكنه ينتهي بحرف علة، فكيف نصوغ مصدره؟',
-                    explanation: 'الفعل على وزن (فَعَّلَ) معتل الآخر (ناقص)، ومصدره يأتي على وزن (تَفْعِلَة).' 
-                },
-                { 
-                    q: 'الفعل "زَلْزَلَ" له مصدران هما: "زَلْزَلَة" و "زِلْزال".', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 0, 
-                    hint: 'الفعل الرباعي المضعف (فعلل) له حالتان للمصدر.',
-                    explanation: 'الفعل مضعف رباعي (فَعْلَلَ)، فمصدره يأتي على وزن (فَعْلَلَة) و(فِعْلال).' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "دَحْرَجَ"؟', 
-                    options: ['دِحْراج', 'دَحْرَجَة', 'تَدَحْرُج'], 
-                    correct: 1, 
-                    hint: 'فعل رباعي مجرد غير مضعف.',
-                    explanation: 'لأنه فعل رباعي مجرد غير مضعف على وزن (فَعْلَلَ)، ومصدره يأتي على وزن (فَعْلَلَة) فقط.' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "أَدَارَ"؟', 
-                    options: ['إِدارَة', 'تَدْوِير', 'مُداراة'], 
-                    correct: 0, 
-                    hint: 'الفعل على وزن (أفعل) وما قبل آخره ألف (معتل العين).',
-                    explanation: 'الفعل على وزن (أفعل) معتل العين (أجوف)، فمصدره يكون بزيادة تاء مربوطة في آخره (إفالة أو إفعلة).' 
-                }
+                { q: 'ما مصدر الفعل الرباعي "أَكْرَمَ"؟', options: ['تكريم', 'إكرام', 'مُكارمة'], correctIndex: 1, hint: 'الفعل على وزن (أفعل)، فما وزن مصدره؟', explanation: 'لأن الفعل على وزن (أَفْعَلَ) وصحيح العين، ومصدره يأتي على وزن (إِفْعال).' },
+                { q: 'مصدر الفعل "عَلَّمَ" هو "إعلام".', options: ['صواب', 'خطأ'], correctIndex: 1, hint: 'الفعل مضعف الوسط (فعّل)، تذكر الوزن الصحيح.', explanation: 'مصدر الفعل (عَلَّمَ) هو (تَعْلِيم) على وزن تفعيل. أما (إعلام) فهو مصدر للفعل (أَعْلَمَ).' },
+                { q: 'ما مصدر الفعل "جَادَلَ"؟', options: ['مُجادلة فقط', 'جِدال فقط', 'مُجادلة وجِدال'], correctIndex: 2, hint: 'الفعل على وزن (فاعَلَ)، وهذا الوزن له أكثر من صورة للمصدر.', explanation: 'لأن الفعل على وزن (فاعَلَ)، ومصدره القياسي يأتي على صورتين: (مُفاعَلَة) و(فِعال).' },
+                { q: 'ما المصدر الصحيح للفعل "رَبَّى"؟', options: ['تربية', 'إرباء', 'تَرابٍ'], correctIndex: 0, hint: 'الفعل على وزن (فعّل) ولكنه ينتهي بحرف علة، فكيف نصوغ مصدره؟', explanation: 'الفعل على وزن (فَعَّلَ) معتل الآخر (ناقص)، ومصدره يأتي على وزن (تَفْعِلَة).' },
+                { q: 'الفعل "زَلْزَلَ" له مصدران هما: "زَلْزَلَة" و "زِلْزال".', options: ['صواب', 'خطأ'], correctIndex: 0, hint: 'الفعل الرباعي المضعف (فعلل) له حالتان للمصدر.', explanation: 'الفعل مضعف رباعي (فَعْلَلَ)، فمصدره يأتي على وزن (فَعْلَلَة) و(فِعْلال).' },
+                { q: 'ما مصدر الفعل "دَحْرَجَ"؟', options: ['دِحْراج', 'دَحْرَجَة', 'تَدَحْرُج'], correctIndex: 1, hint: 'فعل رباعي مجرد غير مضعف.', explanation: 'لأنه فعل رباعي مجرد غير مضعف على وزن (فَعْلَلَ)، ومصدره يأتي على وزن (فَعْلَلَة) فقط.' },
+                { q: 'ما مصدر الفعل "أَدَارَ"؟', options: ['إِدارَة', 'تَدْوِير', 'مُداراة'], correctIndex: 0, hint: 'الفعل على وزن (أفعل) وما قبل آخره ألف (معتل العين).', explanation: 'الفعل على وزن (أفعل) معتل العين (أجوف)، فمصدره يكون بزيادة تاء مربوطة في آخره (إفالة أو إفعلة).' }
             ],
             'penta-hexa': [
-                { 
-                    q: 'ما مصدر الفعل الخماسي "انْطَلَقَ"؟', 
-                    options: ['تَطَلُّق', 'إطلاق', 'انطِلاق'], 
-                    correct: 2, 
-                    hint: 'الفعل مبدوء بهمزة وصل، ماذا نفعل بالحرف الثالث وما قبل الأخير؟',
-                    explanation: 'لأن الفعل خماسي مبدوء بهمزة وصل، نكسر الحرف الثالث ونزيد ألفًا قبل الآخر.' 
-                },
-                { 
-                    q: 'مصدر الفعل الخماسي "تَعَلَّمَ" هو "تَعْلِيم".', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 1, 
-                    hint: 'تذكر أن الفعل الخماسي المبدوء بتاء يعتمد مصدره على حركة الحرف قبل الأخير.',
-                    explanation: 'مصدر (تَعَلَّمَ) هو (تَعَلُّم) بضم ما قبل الآخر؛ لأنه مبدوء بتاء زائدة. أما (تعليم) فمصدر لفعل رباعي.' 
-                },
-                { 
-                    q: 'ما المصدر الصحيح للفعل السداسي "اسْتَخْرَجَ"؟', 
-                    options: ['اسْتِخْراج', 'تَخْرِيج', 'خُروج'], 
-                    correct: 0, 
-                    hint: 'الفعل مبدوء بهمزة وصل، يشبه طريقة صياغة الخماسي المبدوء بالهمزة.',
-                    explanation: 'فعل سداسي مبدوء بهمزة وصل، نكسر الحرف الثالث ونزيد ألفًا قبل الحرف الأخير.' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "احْمَرَّ"؟', 
-                    options: ['احْمِرار', 'تَحْمِير', 'حُمْرة'], 
-                    correct: 0, 
-                    hint: 'هذا الفعل خماسي وليس ثلاثي، وهو مبدوء بهمزة وصل.',
-                    explanation: 'فعل خماسي مبدوء بهمزة وصل (وزن افْعَلَّ)، مصدره يكون بكسر الحرف الثالث وزيادة ألفًا قبل الآخر (افْعِلال).' 
-                },
-                { 
-                    q: 'مصدر الفعل السداسي "اسْتَفادَ" هو "اسْتِفْياد".', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 1, 
-                    hint: 'تأمل الحرف قبل الأخير في الفعل (ألف)، ماذا نفعل عند صياغة المصدر؟',
-                    explanation: 'لأن الفعل (استفاد) معتل العين، فمصدره السداسي يأتي بزيادة تاء مربوطة في آخره عوضًا عن الألف المحذوفة (اسْتِفَادَة).' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "تَقَدَّمَ"؟', 
-                    options: ['تَقْدِيم', 'تَقَادُم', 'تَقَدُّم'], 
-                    correct: 2, 
-                    hint: 'فعل خماسي مبدوء بتاء، ما الحركة التي نضعها قبل الحرف الأخير؟',
-                    explanation: 'فعل خماسي مبدوء بتاء زائدة صحيح الآخر، يكون مصدره على وزن ماضيه مع ضم ما قبل الآخر.' 
-                },
-                { 
-                    q: 'ما مصدر الفعل "اطْمَأَنَّ"؟', 
-                    options: ['اطْمِئْنان', 'طُمَأْنينة', 'تَطْمِين'], 
-                    correct: 0, 
-                    hint: 'هذا الفعل سداسي (النون مشددة) ومبدوء بهمزة وصل.',
-                    explanation: 'الفعل سداسي (النون مضعفة)، وزنه (افْعَلَلَّ) ومصدره يأتي على وزن (افْعِلْلال).' 
-                }
+                { q: 'ما مصدر الفعل الخماسي "انْطَلَقَ"؟', options: ['تَطَلُّق', 'إطلاق', 'انطِلاق'], correctIndex: 2, hint: 'الفعل مبدوء بهمزة وصل، ماذا نفعل بالحرف الثالث وما قبل الأخير؟', explanation: 'لأن الفعل خماسي مبدوء بهمزة وصل، نكسر الحرف الثالث ونزيد ألفًا قبل الآخر.' },
+                { q: 'مصدر الفعل الخماسي "تَعَلَّمَ" هو "تَعْلِيم".', options: ['صواب', 'خطأ'], correctIndex: 1, hint: 'تذكر أن الفعل الخماسي المبدوء بتاء يعتمد مصدره على حركة الحرف قبل الأخير.', explanation: 'مصدر (تَعَلَّمَ) هو (تَعَلُّم) بضم ما قبل الآخر؛ لأنه مبدوء بتاء زائدة. أما (تعليم) فمصدر لفعل رباعي.' },
+                { q: 'ما المصدر الصحيح للفعل السداسي "اسْتَخْرَجَ"؟', options: ['اسْتِخْراج', 'تَخْرِيج', 'خُروج'], correctIndex: 0, hint: 'الفعل مبدوء بهمزة وصل، يشبه طريقة صياغة الخماسي المبدوء بالهمزة.', explanation: 'فعل سداسي مبدوء بهمزة وصل، نكسر الحرف الثالث ونزيد ألفًا قبل الحرف الأخير.' },
+                { q: 'ما مصدر الفعل "احْمَرَّ"؟', options: ['احْمِرار', 'تَحْمِير', 'حُمْرة'], correctIndex: 0, hint: 'هذا الفعل خماسي وليس ثلاثي، وهو مبدوء بهمزة وصل.', explanation: 'فعل خماسي مبدوء بهمزة وصل (وزن افْعَلَّ)، مصدره يكون بكسر الحرف الثالث وزيادة ألفًا قبل الآخر (افْعِلال).' },
+                { q: 'مصدر الفعل السداسي "اسْتَفادَ" هو "اسْتِفْياد".', options: ['صواب', 'خطأ'], correctIndex: 1, hint: 'تأمل الحرف قبل الأخير في الفعل (ألف)، ماذا نفعل عند صياغة المصدر؟', explanation: 'لأن الفعل (استفاد) معتل العين، فمصدره السداسي يأتي بزيادة تاء مربوطة في آخره عوضًا عن الألف المحذوفة (اسْتِفَادَة).' },
+                { q: 'ما مصدر الفعل "تَقَدَّمَ"؟', options: ['تَقْدِيم', 'تَقَادُم', 'تَقَدُّم'], correctIndex: 2, hint: 'فعل خماسي مبدوء بتاء، ما الحركة التي نضعها قبل الحرف الأخير؟', explanation: 'فعل خماسي مبدوء بتاء زائدة صحيح الآخر، يكون مصدره على وزن ماضيه مع ضم ما قبل الآخر.' },
+                { q: 'ما مصدر الفعل "اطْمَأَنَّ"؟', options: ['اطْمِئْنان', 'طُمَأْنينة', 'تَطْمِين'], correctIndex: 0, hint: 'هذا الفعل سداسي (النون مشددة) ومبدوء بهمزة وصل.', explanation: 'الفعل سداسي (النون مضعفة)، وزنه (افْعَلَلَّ) ومصدره يأتي على وزن (افْعِلْلال).' }
             ],
             'comprehensive': [
-                { 
-                    q: 'كلمة "إِحْسان" مصدر لفعل:', 
-                    options: ['ثلاثي', 'رباعي', 'خماسي'], 
-                    correct: 1, 
-                    hint: 'حاول إرجاع الكلمة للفعل الماضي، ثم قم بعد حروفه.',
-                    explanation: 'لأن الفعل الماضي من كلمة (إِحْسان) هو (أَحْسَنَ) وهو يتكون من أربعة أحرف.' 
-                },
-                { 
-                    q: 'المصدر "اسْتِماع" فعله:', 
-                    options: ['سداسي', 'خماسي', 'رباعي'], 
-                    correct: 1, 
-                    hint: 'تأكد من الحروف الأصلية للفعل لتحديد هل السين أصلية أم زائدة.',
-                    explanation: 'الفعل الماضي هو (اسْتَمَعَ). حروفه ٥ (ا-س-ت-م-ع). السين هنا أصلية من مادة (س-م-ع) وليست زائدة للطلب كأفعال السداسي.' 
-                },
-                { 
-                    q: '"النجاح دائمًا ثمرة الاجتهاد الواضح". أين المصدر الخماسي في هذه الجملة؟', 
-                    options: ['النجاح', 'دائمًا', 'الاجتهاد'], 
-                    correct: 2, 
-                    hint: 'ابحث عن كلمة مبدوءة بهمزة وصل أو تاء زائدة تدل على حدث.',
-                    explanation: '(الاجتهاد) فعله (اجتهد) خماسي. أما (النجاح) فمصدر ثلاثي لفعل (نجح).' 
-                },
-                { 
-                    q: 'كلمة "إدارة" هي مصدر لفعل خماسي.', 
-                    options: ['صواب', 'خطأ'], 
-                    correct: 1, 
-                    hint: 'ما الفعل الماضي من إدارة؟ وهل هو خمسة أحرف؟',
-                    explanation: '(إدارة) مصدر لفعل رباعي هو (أدارَ)، على وزن (إفْعَلَة) أو (إفَالَة).' 
-                },
-                { 
-                    q: 'كلمة "تَعَاوُن" هي مصدر لفعل:', 
-                    options: ['رباعي', 'خماسي', 'سداسي'], 
-                    correct: 1, 
-                    hint: 'الفعل الماضي يبدأ بالتاء، قم بعد حروفه.',
-                    explanation: 'الفعل الماضي هو (تَعاوَنَ)، وهو خماسي مبدوء بتاء زائدة، فمصدره يأتي بضم ما قبل الآخر (تَعاوُن).' 
-                },
-                { 
-                    q: 'ما مصدر الفعل السداسي "اسْتَعْمَلَ"؟', 
-                    options: ['تَعَامُل', 'اسْتِعْمال', 'إِعْمال'], 
-                    correct: 1, 
-                    hint: 'تذكر قاعدة الفعل السداسي المبدوء بهمزة وصل.',
-                    explanation: 'فعل سداسي مبدوء بهمزة وصل، نكسر ثالثه ونزيد ألفًا قبل آخره.' 
-                },
-                { 
-                    q: 'كلمة "تَهْنِئَة" مصدر لفعل:', 
-                    options: ['ثلاثي (هَنَأَ)', 'رباعي (هَنَّأَ)', 'خماسي (تَهَنَّأَ)'], 
-                    correct: 1, 
-                    hint: 'المصدر على وزن (تفعلة)، فما وزن فعله؟',
-                    explanation: 'الفعل (هَنَّأَ) رباعي على وزن (فَعَّلَ) مهموز اللام، ومصدره يأتي على وزن (تَفْعِلَة) فتصبح تَهْنِئَة.' 
-                }
+                { q: 'كلمة "إِحْسان" مصدر لفعل:', options: ['ثلاثي', 'رباعي', 'خماسي'], correctIndex: 1, hint: 'حاول إرجاع الكلمة للفعل الماضي، ثم قم بعد حروفه.', explanation: 'لأن الفعل الماضي من كلمة (إِحْسان) هو (أَحْسَنَ) وهو يتكون من أربعة أحرف.' },
+                { q: 'المصدر "اسْتِماع" فعله:', options: ['سداسي', 'خماسي', 'رباعي'], correctIndex: 1, hint: 'تأكد من الحروف الأصلية للفعل لتحديد هل السين أصلية أم زائدة.', explanation: 'الفعل الماضي هو (اسْتَمَعَ). حروفه ٥ (ا-س-ت-م-ع). السين هنا أصلية من مادة (س-م-ع) وليست زائدة للطلب كأفعال السداسي.' },
+                { q: '"النجاح دائمًا ثمرة الاجتهاد الواضح". أين المصدر الخماسي في هذه الجملة؟', options: ['النجاح', 'دائمًا', 'الاجتهاد'], correctIndex: 2, hint: 'ابحث عن كلمة مبدوءة بهمزة وصل أو تاء زائدة تدل على حدث.', explanation: '(الاجتهاد) فعله (اجتهد) خماسي. أما (النجاح) فمصدر ثلاثي لفعل (نجح).' },
+                { q: 'كلمة "إدارة" هي مصدر لفعل خماسي.', options: ['صواب', 'خطأ'], correctIndex: 1, hint: 'ما الفعل الماضي من إدارة؟ وهل هو خمسة أحرف؟', explanation: '(إدارة) مصدر لفعل رباعي هو (أدارَ)، على وزن (إفْعَلَة) أو (إفَالَة).' },
+                { q: 'كلمة "تَعَاوُن" هي مصدر لفعل:', options: ['رباعي', 'خماسي', 'سداسي'], correctIndex: 1, hint: 'الفعل الماضي يبدأ بالتاء، قم بعد حروفه.', explanation: 'الفعل الماضي هو (تَعاوَنَ)، وهو خماسي مبدوء بتاء زائدة، فمصدره يأتي بضم ما قبل الآخر (تَعاوُن).' },
+                { q: 'ما مصدر الفعل السداسي "اسْتَعْمَلَ"؟', options: ['تَعَامُل', 'اسْتِعْمال', 'إِعْمال'], correctIndex: 1, hint: 'تذكر قاعدة الفعل السداسي المبدوء بهمزة وصل.', explanation: 'فعل سداسي مبدوء بهمزة وصل، نكسر ثالثه ونزيد ألفًا قبل آخره.' },
+                { q: 'كلمة "تَهْنِئَة" مصدر لفعل:', options: ['ثلاثي (هَنَأَ)', 'رباعي (هَنَّأَ)', 'خماسي (تَهَنَّأَ)'], correctIndex: 1, hint: 'المصدر على وزن (تفعلة)، فما وزن فعله؟', explanation: 'الفعل (هَنَّأَ) رباعي على وزن (فَعَّلَ) مهموز اللام، ومصدره يأتي على وزن (تَفْعِلَة) فتصبح تَهْنِئَة.' }
             ]
         };
 
-        // 2. حالة التطبيق
+        const sectionOrder = ['tri', 'quad', 'penta-hexa', 'comprehensive'];
+        
+        // حالة التطبيق
         const appState = {
-            'tri': { score: 0, answeredCount: 0 },
-            'quad': { score: 0, answeredCount: 0 },
-            'penta-hexa': { score: 0, answeredCount: 0 },
-            'comprehensive': { score: 0, answeredCount: 0 }
+            'tri': { score: 0, answered: 0, isDone: false },
+            'quad': { score: 0, answered: 0, isDone: false },
+            'penta-hexa': { score: 0, answered: 0, isDone: false },
+            'comprehensive': { score: 0, answered: 0, isDone: false }
         };
 
-        // أيقونات SVG نقية
-        const iconSuccess = `<svg class="w-10 h-10 text-emerald-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`;
-        const iconError = `<svg class="w-10 h-10 text-red-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
-        // تم استخدام أيقونة واحدة فقط لتجنب التكرار
-        const iconLightbulb = `<svg class="w-7 h-7 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>`;
+        // تحديث شريط التقدم الكلي
+        function updateGlobalProgress() {
+            let totalQuestions = 0;
+            let totalAnswered = 0;
+            
+            for (const key in quizData) {
+                totalQuestions += quizData[key].length;
+                totalAnswered += appState[key].answered;
+            }
+            
+            const percent = (totalAnswered / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
 
-        // 3. بناء الواجهة
-        function buildQuiz(sectionId) {
+            if (percent === 100) {
+                showGlobalSummary();
+            }
+        }
+
+        // بناء الواجهة للقسم مع الخلط العشوائي
+        function buildSection(sectionId) {
             const container = document.getElementById(`quiz-${sectionId}`);
             container.innerHTML = ''; 
-
             const questions = quizData[sectionId];
             
             questions.forEach((qItem, qIndex) => {
                 const arabicQNum = toArabicDigits(qIndex + 1);
 
-                const questionCard = document.createElement('div');
-                questionCard.className = 'bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300';
-                questionCard.id = `card-${sectionId}-${qIndex}`;
+                // تجهيز الخيارات وخلطها
+                let optionsWithMeta = qItem.options.map((optText, origIndex) => ({
+                    text: optText,
+                    isCorrect: origIndex === qItem.correctIndex
+                }));
+                optionsWithMeta = shuffleArray(optionsWithMeta);
 
+                const qCard = document.createElement('div');
+                qCard.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100';
+                qCard.id = `card-${sectionId}-${qIndex}`;
+
+                // رأس السؤال
                 const qHeader = document.createElement('div');
-                qHeader.className = 'flex justify-between items-start gap-4 mb-6';
+                qHeader.className = 'flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-5';
                 
-                const questionText = document.createElement('p');
-                questionText.className = 'text-2xl md:text-3xl font-bold text-slate-800 leading-relaxed';
-                questionText.innerHTML = `<span class="text-indigo-700 font-bold ml-2">${arabicQNum}-</span> ${qItem.q}`;
+                const qText = document.createElement('p');
+                qText.className = 'text-xl md:text-2xl font-bold text-slate-800 leading-relaxed';
+                qText.innerHTML = `<span class="text-indigo-600 font-bold ml-1">${arabicQNum}-</span> ${qItem.q}`;
                 
+                // زر التلميح
                 const hintBtn = document.createElement('button');
-                hintBtn.className = 'hint-btn shrink-0 text-amber-500 hover:text-amber-600 hover:bg-amber-50 px-3 py-2 rounded-xl transition-colors focus:outline-none flex items-center justify-center font-bold border border-amber-100';
-                hintBtn.title = 'عرض التلميح';
-                hintBtn.innerHTML = iconLightbulb;
+                hintBtn.className = 'text-amber-500 hover:text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm border border-amber-100 flex items-center gap-1 self-start shrink-0';
+                hintBtn.innerHTML = `<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg> تلميح`;
                 hintBtn.onclick = () => toggleHint(sectionId, qIndex);
 
-                qHeader.appendChild(questionText);
+                qHeader.appendChild(qText);
                 qHeader.appendChild(hintBtn);
-                questionCard.appendChild(qHeader);
+                qCard.appendChild(qHeader);
 
+                // منطقة التلميح
                 const hintDiv = document.createElement('div');
                 hintDiv.id = `hint-${sectionId}-${qIndex}`;
-                hintDiv.className = 'hidden mb-6 p-5 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 font-medium text-xl reveal-box';
-                hintDiv.innerHTML = `<strong class="font-bold">تلميح:</strong> ${qItem.hint}`;
-                questionCard.appendChild(hintDiv);
+                hintDiv.className = 'hidden mb-5 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 font-medium text-lg reveal-box';
+                hintDiv.innerHTML = `${qItem.hint}`;
+                qCard.appendChild(hintDiv);
 
-                const optionsContainer = document.createElement('div');
-                optionsContainer.className = 'space-y-4';
+                // الخيارات
+                const optsContainer = document.createElement('div');
+                optsContainer.className = 'flex flex-col gap-3';
 
-                qItem.options.forEach((optText, optIndex) => {
+                optionsWithMeta.forEach((optObj, renderIndex) => {
                     const label = document.createElement('label');
-                    label.className = 'flex items-center gap-4 cursor-pointer p-4 rounded-xl transition-all duration-200 border-2 border-slate-100 hover:border-indigo-300 hover:bg-indigo-50/50 text-2xl font-medium text-slate-700 bg-slate-50/50';
+                    label.className = 'flex items-center gap-3 cursor-pointer p-4 rounded-xl transition-all border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-xl text-slate-700 bg-slate-50';
                     
-                    const radioInput = document.createElement('input');
-                    radioInput.type = 'radio';
-                    radioInput.name = `radio-${sectionId}-${qIndex}`;
-                    radioInput.value = optIndex;
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `radio-${sectionId}-${qIndex}`;
+                    radio.value = optObj.isCorrect ? 'true' : 'false';
                     
-                    radioInput.addEventListener('change', () => handleAnswer(sectionId, qIndex, optIndex, questionCard, qItem));
+                    radio.addEventListener('change', () => handleAnswer(sectionId, qIndex, radio, optObj.isCorrect, qCard, qItem, optionsWithMeta));
 
                     const span = document.createElement('span');
-                    span.textContent = optText;
+                    span.textContent = optObj.text;
 
-                    label.appendChild(radioInput);
+                    label.appendChild(radio);
                     label.appendChild(span);
-                    optionsContainer.appendChild(label);
+                    optsContainer.appendChild(label);
                 });
 
-                questionCard.appendChild(optionsContainer);
+                qCard.appendChild(optsContainer);
 
+                // التغذية الراجعة
                 const feedbackDiv = document.createElement('div');
-                feedbackDiv.className = 'feedback-box hidden mt-6 p-6 rounded-xl border-2 reveal-box';
-                questionCard.appendChild(feedbackDiv);
+                feedbackDiv.className = 'feedback-box hidden mt-5 p-5 rounded-xl border reveal-box';
+                qCard.appendChild(feedbackDiv);
 
-                container.appendChild(questionCard);
+                container.appendChild(qCard);
             });
         }
 
-        // إظهار/إخفاء التلميح
         function toggleHint(sectionId, qIndex) {
             const hintDiv = document.getElementById(`hint-${sectionId}-${qIndex}`);
-            if (hintDiv.classList.contains('hidden')) {
-                hintDiv.classList.remove('hidden');
-            } else {
-                hintDiv.classList.add('hidden');
-            }
+            hintDiv.classList.toggle('hidden');
         }
 
-        // 4. معالجة الإجابة (التغذية الراجعة الفورية)
-        function handleAnswer(sectionId, qIndex, selectedOptIndex, cardElement, qDataObj) {
+        function handleAnswer(sectionId, qIndex, selectedRadio, isCorrect, cardElement, qDataObj, currentOptionsMap) {
             if (cardElement.dataset.answered === 'true') return;
             cardElement.dataset.answered = 'true';
 
-            const feedbackDiv = cardElement.querySelector('.feedback-box');
+            appState[sectionId].answered++;
+            if (isCorrect) appState[sectionId].score++;
+
             const allLabels = cardElement.querySelectorAll('label');
             const allRadios = cardElement.querySelectorAll('input[type="radio"]');
-
-            const isCorrect = (selectedOptIndex === qDataObj.correct);
-
-            appState[sectionId].answeredCount++;
-            if (isCorrect) {
-                appState[sectionId].score++;
-            }
+            const feedbackDiv = cardElement.querySelector('.feedback-box');
 
             allRadios.forEach((radio, index) => {
                 radio.disabled = true;
@@ -511,11 +390,11 @@
                 label.classList.remove('hover:border-indigo-300', 'hover:bg-indigo-50/50', 'cursor-pointer');
                 label.classList.add('cursor-default');
 
-                if (index === qDataObj.correct) {
-                    label.classList.remove('border-slate-100', 'bg-slate-50/50');
+                if (currentOptionsMap[index].isCorrect) {
+                    label.classList.remove('border-slate-200', 'bg-slate-50');
                     label.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
-                } else if (index === selectedOptIndex && !isCorrect) {
-                    label.classList.remove('border-slate-100', 'bg-slate-50/50', 'text-slate-700');
+                } else if (radio === selectedRadio && !isCorrect) {
+                    label.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-700');
                     label.classList.add('border-red-400', 'bg-red-50', 'text-red-800', 'line-through');
                 } else {
                     label.classList.add('opacity-50');
@@ -524,109 +403,103 @@
 
             feedbackDiv.classList.remove('hidden');
             
-            if (isCorrect) {
-                cardElement.classList.add('border-emerald-200');
-                feedbackDiv.classList.add('bg-emerald-50', 'border-emerald-200');
-                feedbackDiv.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        ${iconSuccess}
-                        <div>
-                            <p class="text-3xl font-bold mb-3 text-emerald-800">إجابة صحيحة</p>
-                            <p class="text-2xl leading-relaxed text-emerald-900"><strong class="font-bold">التوضيح:</strong> ${qDataObj.explanation}</p>
-                        </div>
-                    </div>`;
-            } else {
-                cardElement.classList.add('border-red-200');
-                feedbackDiv.classList.add('bg-red-50', 'border-red-200');
-                feedbackDiv.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        ${iconError}
-                        <div>
-                            <p class="text-3xl font-bold mb-3 text-red-800">إجابة خاطئة</p>
-                            <p class="text-2xl leading-relaxed text-red-900"><strong class="font-bold">التوضيح:</strong> ${qDataObj.explanation}</p>
-                        </div>
-                    </div>`;
-            }
+            const iconHTML = isCorrect 
+                ? `<svg class="w-8 h-8 text-emerald-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`
+                : `<svg class="w-8 h-8 text-red-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+            
+            const titleHTML = isCorrect
+                ? `<p class="text-2xl font-bold mb-2 text-emerald-800">إجابة صحيحة</p>`
+                : `<p class="text-2xl font-bold mb-2 text-red-800">إجابة خاطئة</p>`;
 
-            const totalQuestions = quizData[sectionId].length;
-            if (appState[sectionId].answeredCount === totalQuestions) {
-                showFinalScore(sectionId);
+            const bgClass = isCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200';
+            
+            feedbackDiv.className = `feedback-box mt-5 p-5 rounded-xl border reveal-box ${bgClass}`;
+            feedbackDiv.innerHTML = `
+                <div class="flex items-start gap-3">
+                    ${iconHTML}
+                    <div>
+                        ${titleHTML}
+                        <p class="text-xl text-slate-800 leading-relaxed"><strong class="font-bold">التوضيح:</strong> ${qDataObj.explanation}</p>
+                    </div>
+                </div>`;
+
+            updateGlobalProgress();
+
+            if (appState[sectionId].answered === quizData[sectionId].length) {
+                appState[sectionId].isDone = true;
+                showSectionEnd(sectionId);
             }
         }
 
-        // 5. عرض النتيجة النهائية بالقسم مع التقييم
-        function showFinalScore(sectionId) {
-            const scoreDiv = document.getElementById(`score-${sectionId}`);
+        function showSectionEnd(sectionId) {
+            const endDiv = document.getElementById(`end-${sectionId}`);
             const score = appState[sectionId].score;
             const total = quizData[sectionId].length;
             
-            scoreDiv.classList.remove('hidden');
-            scoreDiv.classList.add('reveal-box');
-
-            let evaluationWord = "عمل جيد";
-            if (score === total) {
-                evaluationWord = "مستوى متقن";
-            } else if (score < total / 2) {
-                evaluationWord = "حاول مرة أخرى لتتحسن";
-            } else if (score >= total / 2) {
-                evaluationWord = "مستوى متقدم";
-            }
-
-            // تحويل الدرجات للأرقام العربية
-            const arabicScore = toArabicDigits(score);
-            const arabicTotal = toArabicDigits(total);
-
-            scoreDiv.innerHTML = `
-                <h3 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6">النتيجة النهائية</h3>
-                <div class="text-6xl font-bold text-indigo-700 mb-6" dir="ltr">${arabicScore} / ${arabicTotal}</div>
-                <span class="text-3xl font-bold text-slate-700 block mb-8">${evaluationWord}</span>
-                <button onclick="resetSection('${sectionId}')" class="bg-white border-2 border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white font-bold py-3 px-10 rounded-xl transition-colors duration-300 text-2xl shadow-sm">إعادة المحاولة</button>
+            endDiv.classList.remove('hidden');
+            endDiv.innerHTML = `
+                <div class="p-8 bg-white/80 rounded-2xl border border-slate-200 shadow-sm inline-block w-full max-w-md">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-4">نتيجة القسم</h3>
+                    <div class="text-5xl font-bold text-indigo-700 mb-2" dir="ltr">${toArabicDigits(score)} / ${toArabicDigits(total)}</div>
+                </div>
             `;
-            
-            setTimeout(() => {
-                scoreDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 400);
         }
 
-        // 6. إعادة تعيين القسم
         function resetSection(sectionId) {
             appState[sectionId].score = 0;
-            appState[sectionId].answeredCount = 0;
-            document.getElementById(`score-${sectionId}`).classList.add('hidden');
-            buildQuiz(sectionId);
+            appState[sectionId].answered = 0;
+            appState[sectionId].isDone = false;
+            document.getElementById(`end-${sectionId}`).classList.add('hidden');
+            buildSection(sectionId);
+            updateGlobalProgress();
+            
+            // التمرير لأعلى القسم بنعومة
             document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // 7. نظام التبويبات (Tabs)
-        document.getElementById('tabs-container').addEventListener('click', (e) => {
-            const targetBtn = e.target.closest('.tab-btn');
-            if (!targetBtn) return; 
+        function showGlobalSummary() {
+            let totalScore = 0;
+            let totalQs = 0;
+            for (const key in appState) {
+                totalScore += appState[key].score;
+                totalQs += quizData[key].length;
+            }
+            const summaryDiv = document.getElementById('final-summary');
+            document.getElementById('final-score-text').innerText = `${toArabicDigits(totalScore)} / ${toArabicDigits(totalQs)}`;
+            summaryDiv.classList.remove('hidden');
+        }
 
-            const targetId = targetBtn.getAttribute('data-target');
-
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.remove('active');
-            });
-
+        // نظام التبويبات والتمرير
+        function goToTab(targetId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
-                btn.classList.add('bg-slate-50', 'text-slate-800');
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-slate-50', 'text-slate-700');
             });
 
             document.getElementById(targetId).classList.add('active');
-            targetBtn.classList.remove('bg-slate-50', 'text-slate-800');
-            targetBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
             
-            // التمرير لأعلى لتوفير المساحة
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const targetBtn = document.querySelector(`button[data-target="${targetId}"]`);
+            if(targetBtn){
+                targetBtn.classList.remove('bg-slate-50', 'text-slate-700');
+                targetBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
+                // التمرير الأفقي للتبويبات لضمان رؤية الزر النشط في الجوال
+                targetBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            // التمرير لمحتوى القسم بحيث تكون التبويبات في الأعلى
+            document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.getElementById('tabs-container').addEventListener('click', (e) => {
+            const targetBtn = e.target.closest('.tab-btn');
+            if (!targetBtn) return; 
+            goToTab(targetBtn.getAttribute('data-target'));
         });
 
-        // تشغيل التطبيق وبناء الواجهة عند التحميل
+        // تهيئة التطبيق
         window.addEventListener('DOMContentLoaded', () => {
-            buildQuiz('tri');
-            buildQuiz('quad');
-            buildQuiz('penta-hexa');
-            buildQuiz('comprehensive');
+            sectionOrder.forEach(id => buildSection(id));
         });
     </script>
 </body>
