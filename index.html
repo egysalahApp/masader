@@ -42,8 +42,9 @@
         
         input[type="radio"] {
             accent-color: #4f46e5;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.5rem; /* استخدام rem بدلاً من px */
+            height: 1.5rem; /* استخدام rem بدلاً من px */
+            flex-shrink: 0; /* منع زر الاختيار من الانكماش عند تكبير الخط والتفافه */
             cursor: pointer;
         }
 
@@ -69,8 +70,9 @@
             animation: fadeIn 0.4s ease-out forwards;
         }
 
+        /* استخدام وحدات rem بدلاً من px لضمان سلاسة الحركة عند الـ Zoom */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(0.625rem); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -78,19 +80,20 @@
             animation: slideDown 0.3s ease-out forwards;
         }
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-5px); }
+            from { opacity: 0; transform: translateY(-0.3125rem); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col font-readex text-xl">
 
-    <!-- الترويسة (تتحرك مع الصفحة وتختفي عند التمرير لتوفير المساحة) -->
-    <header class="w-full text-center py-6 bg-white">
+    <!-- الترويسة -->
+    <header class="w-full text-center py-6 bg-white shrink-0">
         <div class="flex flex-col items-center justify-center space-y-1">
             <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" 
                class="inline-flex items-center justify-center gap-2">
                 <span class="text-slate-900 text-2xl font-bold">العربية السهلة</span>
+                <!-- استخدام w-7 h-7 تعادل 1.75rem مما يسمح بالتكبير المريح -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF0000" class="w-7 h-7 shrink-0">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                 </svg>
@@ -124,7 +127,7 @@
             <!-- 0. المراجعة -->
             <div id="review" class="tab-content active bg-slate-50/50 p-6 md:p-10 rounded-3xl border border-slate-200">
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm mb-6">المصادر</h1>
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 mb-4">المصادر</h1>
                     <h2 class="text-xl md:text-2xl font-medium text-slate-600">مراجعة سريعة للدرس</h2>
                 </div>
                 
@@ -195,10 +198,12 @@
             <!-- 1. المصادر الثلاثية -->
             <div id="tri" class="tab-content bg-pastel-blue/40 p-6 md:p-10 rounded-3xl border border-blue-100">
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm mb-6">المصادر</h1>
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 mb-4">المصادر</h1>
                     <h2 class="text-xl md:text-2xl font-medium text-blue-700">المصادر الثلاثية</h2>
                 </div>
                 <div id="quiz-tri" class="space-y-8"></div>
+                
+                <!-- حاوية النتيجة الهادئة -->
                 <div id="end-tri" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
@@ -210,10 +215,12 @@
             <!-- 2. المصادر الرباعية -->
             <div id="quad" class="tab-content bg-pastel-green/40 p-6 md:p-10 rounded-3xl border border-emerald-100">
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm mb-6">المصادر</h1>
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 mb-4">المصادر</h1>
                     <h2 class="text-xl md:text-2xl font-medium text-emerald-700">المصادر الرباعية</h2>
                 </div>
                 <div id="quiz-quad" class="space-y-8"></div>
+                
+                <!-- حاوية النتيجة الهادئة -->
                 <div id="end-quad" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
@@ -225,10 +232,12 @@
             <!-- 3. الخماسية والسداسية -->
             <div id="penta-hexa" class="tab-content bg-pastel-purple/40 p-6 md:p-10 rounded-3xl border border-fuchsia-100">
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm mb-6">المصادر</h1>
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 mb-4">المصادر</h1>
                     <h2 class="text-xl md:text-2xl font-medium text-fuchsia-700">الخماسية والسداسية</h2>
                 </div>
                 <div id="quiz-penta-hexa" class="space-y-8"></div>
+                
+                <!-- حاوية النتيجة الهادئة -->
                 <div id="end-penta-hexa" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
@@ -240,40 +249,20 @@
             <!-- 4. تدريبات شاملة -->
             <div id="comprehensive" class="tab-content bg-pastel-orange/40 p-6 md:p-10 rounded-3xl border border-orange-100">
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm mb-6">المصادر</h1>
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 mb-4">المصادر</h1>
                     <h2 class="text-xl md:text-2xl font-medium text-orange-700">تدريبات شاملة وعامة</h2>
                 </div>
                 <div id="quiz-comprehensive" class="space-y-8"></div>
+                
+                <!-- حاوية النتيجة الهادئة (للقسم فقط) -->
                 <div id="end-comprehensive" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
                     <button onclick="resetSection('comprehensive')" class="bg-white border border-slate-300 text-slate-600 font-medium py-4 px-10 rounded-xl text-xl w-full sm:w-auto transition-colors hover:bg-slate-50">إعادة المحاولة</button>
                 </div>
-            </div>
 
-            <!-- بطاقة الإنجاز النهائية (شهادة التقدير) -->
-            <div id="certificate-container" class="hidden w-full mt-12 mb-4">
-                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-8 md:p-12 rounded-3xl border-4 border-dashed border-indigo-300 shadow-xl text-center flex flex-col items-center gap-8 reveal-box mx-auto">
-                    <!-- أيقونة الكأس/الشهادة -->
-                    <svg class="w-28 h-28 text-amber-500 drop-shadow-md shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                    
-                    <h2 class="text-4xl md:text-5xl font-bold text-indigo-900">شهادة إنجاز</h2>
-                    <p class="text-2xl font-medium text-slate-700">لقد أتممت جميع التدريبات بنجاح!</p>
-                    
-                    <div class="bg-white px-10 py-6 rounded-3xl border-2 border-indigo-100 shadow-sm w-full sm:w-auto">
-                        <p class="text-xl text-slate-500 font-bold mb-3">الدرجة الكلية</p>
-                        <div id="cert-score" class="text-7xl md:text-8xl font-bold text-indigo-700 tracking-wider" dir="ltr"></div>
-                    </div>
-                    
-                    <p id="cert-message" class="text-2xl md:text-3xl font-bold leading-relaxed px-4"></p>
-                    
-                    <div class="flex flex-wrap justify-center gap-4 w-full mt-4">
-                        <button onclick="goToTab('review')" class="bg-white border-2 border-indigo-600 text-indigo-700 font-bold py-4 px-8 rounded-xl text-xl transition-colors w-full sm:w-auto hover:bg-indigo-50">مراجعة الدرس</button>
-                        <button onclick="resetAllSections()" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-xl text-xl shadow-sm transition-colors w-full sm:w-auto hover:bg-indigo-700">إعادة جميع التدريبات</button>
-                    </div>
-                </div>
+                <!-- حاوية النتيجة الإجمالية (تظهر فقط عند إتمام جميع الأقسام) -->
+                <div id="global-summary-container" class="hidden mt-12 text-center reveal-box border-t-2 border-slate-200 pt-10"></div>
             </div>
 
         </main>
@@ -344,13 +333,12 @@
 
         const sectionOrder = ['review', 'tri', 'quad', 'penta-hexa', 'comprehensive'];
         let currentSectionId = 'review';
-        let previouslyAllDone = false; 
-
+        
         const appState = {
-            'tri': { score: 0, answered: 0, isDone: false },
-            'quad': { score: 0, answered: 0, isDone: false },
-            'penta-hexa': { score: 0, answered: 0, isDone: false },
-            'comprehensive': { score: 0, answered: 0, isDone: false }
+            'tri': { score: 0, answered: 0 },
+            'quad': { score: 0, answered: 0 },
+            'penta-hexa': { score: 0, answered: 0 },
+            'comprehensive': { score: 0, answered: 0 }
         };
 
         function updateSectionProgress(sectionId) {
@@ -362,25 +350,6 @@
             const answered = appState[sectionId].answered;
             const percent = (answered / total) * 100;
             document.getElementById('progress-bar').style.width = `${percent}%`;
-            checkGlobalCompletion();
-        }
-
-        function checkGlobalCompletion() {
-            let allDone = true;
-            for (const key in appState) {
-                if (!appState[key].isDone) {
-                    allDone = false;
-                    break;
-                }
-            }
-            
-            if (allDone && !previouslyAllDone) {
-                showGlobalCertificate();
-                previouslyAllDone = true;
-            } else if (!allDone) {
-                previouslyAllDone = false;
-                document.getElementById('certificate-container').classList.add('hidden');
-            }
         }
 
         function buildSection(sectionId) {
@@ -521,39 +490,47 @@
             updateSectionProgress(sectionId);
 
             if (appState[sectionId].answered === quizData[sectionId].length) {
-                appState[sectionId].isDone = true;
                 showSectionEnd(sectionId);
-                checkGlobalCompletion();
             }
         }
 
+        // عرض نتيجة القسم بشكل مستقل
         function showSectionEnd(sectionId) {
             const endDiv = document.getElementById(`end-${sectionId}`);
             const score = appState[sectionId].score;
             const total = quizData[sectionId].length;
-            
+
             endDiv.classList.remove('hidden');
             endDiv.innerHTML = `
-                <div class="p-8 bg-white/90 rounded-2xl border border-slate-200 shadow-sm inline-block w-full max-w-md">
-                    <h3 class="text-3xl font-bold text-slate-800 mb-4">نتيجة القسم</h3>
-                    <div class="text-5xl font-bold text-indigo-700 mb-2" dir="ltr">${toArabicDigits(score)} / ${toArabicDigits(total)}</div>
+                <div class="p-8 bg-slate-50/90 rounded-3xl border border-slate-200 shadow-sm inline-block w-full max-w-md mx-auto">
+                    <p class="text-xl font-medium text-slate-600 mb-3">نتيجة القسم:</p>
+                    <div class="text-3xl font-bold text-indigo-600">${toArabicDigits(score)} من ${toArabicDigits(total)}</div>
                 </div>
             `;
+            
+            // التحقق من اكتمال جميع الأقسام لعرض النتيجة الإجمالية
+            checkGlobalCompletion();
         }
 
-        function resetSection(sectionId) {
-            appState[sectionId].score = 0;
-            appState[sectionId].answered = 0;
-            appState[sectionId].isDone = false;
-            document.getElementById(`end-${sectionId}`).classList.add('hidden');
-            document.getElementById('certificate-container').classList.add('hidden');
-            buildSection(sectionId);
-            updateSectionProgress(sectionId);
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // التحقق من إجابة جميع الأقسام
+        function checkGlobalCompletion() {
+            let allDone = true;
+            for (const key in appState) {
+                if (appState[key].answered < quizData[key].length) {
+                    allDone = false;
+                    break;
+                }
+            }
+            if (allDone) {
+                showGlobalSummary();
+            } else {
+                const globalContainer = document.getElementById('global-summary-container');
+                if (globalContainer) globalContainer.classList.add('hidden');
+            }
         }
 
-        // عرض بطاقة الشهادة المتضمنة في نفس الصفحة
-        function showGlobalCertificate() {
+        // عرض النتيجة الإجمالية في أسفل القسم الأخير
+        function showGlobalSummary() {
             let totalScore = 0;
             let totalQs = 0;
             for (const key in appState) {
@@ -561,50 +538,77 @@
                 totalQs += quizData[key].length;
             }
             
-            const certContainer = document.getElementById('certificate-container');
-            document.getElementById('cert-score').innerText = `${toArabicDigits(totalScore)} / ${toArabicDigits(totalQs)}`;
-            
-            // حساب النسبة المئوية لإظهار رسالة متغيرة
             const percentage = totalScore / totalQs;
-            const msgEl = document.getElementById('cert-message');
-            
+            let motivationalText = "مجهود رائع! استمر في التدرب لتحقيق التميز دائمًا.";
             if (percentage === 1) {
-                msgEl.innerText = "مستوى عبقري! أداء لا تشوبه شائبة، أنت أستاذ في المصادر.";
-                msgEl.className = "text-2xl md:text-3xl font-bold leading-relaxed px-4 text-emerald-600";
+                motivationalText = "أداء استثنائي! أنت عبقري في المصادر ودرجتك كاملة.";
             } else if (percentage >= 0.8) {
-                msgEl.innerText = "مستوى ممتاز! لقد أظهرت فهمًا رائعًا للدرس.";
-                msgEl.className = "text-2xl md:text-3xl font-bold leading-relaxed px-4 text-blue-600";
+                motivationalText = "عمل ممتاز! لقد أثبتّ فهمك الرائع للدرس.";
             } else if (percentage >= 0.5) {
-                msgEl.innerText = "مستوى جيد! أتممت التدريبات، ولكن يمكنك تحقيق نتيجة أفضل بالمراجعة.";
-                msgEl.className = "text-2xl md:text-3xl font-bold leading-relaxed px-4 text-amber-600";
+                motivationalText = "أداء جيد! مع قليل من المراجعة ستصل للقمة بإذن الله.";
             } else {
-                msgEl.innerText = "مستوى مبتدئ. لا تيأس! راجع الدرس جيدًا ثم حاول مرة أخرى.";
-                msgEl.className = "text-2xl md:text-3xl font-bold leading-relaxed px-4 text-red-600";
+                motivationalText = "لا تيأس! كل محاولة هي خطوة نحو النجاح، راجع الدرس وحاول مجدداً.";
             }
-
-            certContainer.classList.remove('hidden');
             
-            // التمرير إلى الشهادة بنعومة
-            setTimeout(() => {
-                certContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
+            const globalContainer = document.getElementById('global-summary-container');
+            globalContainer.classList.remove('hidden');
+            globalContainer.innerHTML = `
+                <p class="text-2xl font-bold text-slate-600 mb-4">النتيجة الإجمالية للتطبيق</p>
+                <div class="inline-block p-8 md:p-10 bg-white rounded-3xl border border-indigo-100 shadow-md w-full max-w-2xl mx-auto">
+                    <div class="text-4xl md:text-5xl font-bold text-indigo-700 mb-6">المجموع الكلي ${toArabicDigits(totalScore)} من ${toArabicDigits(totalQs)}</div>
+                    <p class="text-xl font-medium text-slate-700 bg-indigo-50/80 p-5 rounded-2xl border border-indigo-100 mb-8 leading-relaxed">${motivationalText}</p>
+                    <button onclick="resetAllTests()" class="bg-indigo-600 text-white font-bold py-4 px-10 rounded-xl text-xl shadow-md w-full sm:w-auto transition-colors hover:bg-indigo-700">ابدأ من جديد</button>
+                </div>
+            `;
+            
+            // تمرير خفيف للأسفل لإظهار النتيجة إذا كان الطالب في القسم الأخير
+            if (currentSectionId === 'comprehensive') {
+                setTimeout(() => {
+                    globalContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 300);
+            }
         }
 
-        function resetAllSections() {
-            previouslyAllDone = false;
-            document.getElementById('certificate-container').classList.add('hidden');
+        // تصفير النتيجة وإخفائها عند إعادة المحاولة
+        function resetSection(sectionId) {
+            appState[sectionId].score = 0;
+            appState[sectionId].answered = 0;
             
+            const endDiv = document.getElementById(`end-${sectionId}`);
+            if(endDiv) {
+                endDiv.classList.add('hidden');
+                endDiv.innerHTML = '';
+            }
+            
+            buildSection(sectionId);
+            updateSectionProgress(sectionId);
+            checkGlobalCompletion(); // للتحقق وإخفاء النتيجة الإجمالية إن كانت ظاهرة
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // تصفير جميع الأقسام والعودة للبداية
+        function resetAllTests() {
             for (const key in appState) {
                 appState[key].score = 0;
                 appState[key].answered = 0;
-                appState[key].isDone = false;
                 
                 const endDiv = document.getElementById(`end-${key}`);
-                if (endDiv) endDiv.classList.add('hidden');
+                if(endDiv) {
+                    endDiv.classList.add('hidden');
+                    endDiv.innerHTML = '';
+                }
                 
                 buildSection(key);
             }
-            goToTab('tri');
+            
+            const globalContainer = document.getElementById('global-summary-container');
+            if (globalContainer) {
+                globalContainer.classList.add('hidden');
+                globalContainer.innerHTML = '';
+            }
+            
+            goToTab('review');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function goToTab(targetId) {
@@ -643,5 +647,3 @@
     </script>
 </body>
 </html>
-
-
