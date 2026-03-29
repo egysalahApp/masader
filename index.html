@@ -42,9 +42,9 @@
         
         input[type="radio"] {
             accent-color: #4f46e5;
-            width: 1.5rem; /* استخدام rem بدلاً من px */
-            height: 1.5rem; /* استخدام rem بدلاً من px */
-            flex-shrink: 0; /* منع زر الاختيار من الانكماش عند تكبير الخط والتفافه */
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
             cursor: pointer;
         }
 
@@ -70,7 +70,6 @@
             animation: fadeIn 0.4s ease-out forwards;
         }
 
-        /* استخدام وحدات rem بدلاً من px لضمان سلاسة الحركة عند الـ Zoom */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(0.625rem); }
             to { opacity: 1; transform: translateY(0); }
@@ -201,10 +200,7 @@
                     <h2 class="text-xl md:text-2xl font-medium text-blue-700">المصادر الثلاثية</h2>
                 </div>
                 <div id="quiz-tri" class="space-y-8"></div>
-                
-                <!-- حاوية النتيجة -->
                 <div id="end-tri" class="hidden mt-10 text-center reveal-box"></div>
-                
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
                     <button onclick="resetSection('tri')" class="bg-white border border-slate-300 text-slate-600 font-medium py-4 px-8 rounded-xl text-xl w-full sm:w-auto transition-colors hover:bg-slate-50">إعادة المحاولة</button>
                     <button onclick="goToTab('quad')" class="bg-indigo-600 text-white font-medium py-4 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto transition-colors hover:bg-indigo-700">القسم التالي</button>
@@ -218,10 +214,7 @@
                     <h2 class="text-xl md:text-2xl font-medium text-emerald-700">المصادر الرباعية</h2>
                 </div>
                 <div id="quiz-quad" class="space-y-8"></div>
-                
-                <!-- حاوية النتيجة -->
                 <div id="end-quad" class="hidden mt-10 text-center reveal-box"></div>
-                
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
                     <button onclick="resetSection('quad')" class="bg-white border border-slate-300 text-slate-600 font-medium py-4 px-8 rounded-xl text-xl w-full sm:w-auto transition-colors hover:bg-slate-50">إعادة المحاولة</button>
                     <button onclick="goToTab('penta-hexa')" class="bg-indigo-600 text-white font-medium py-4 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto transition-colors hover:bg-indigo-700">القسم التالي</button>
@@ -235,10 +228,7 @@
                     <h2 class="text-xl md:text-2xl font-medium text-fuchsia-700">الخماسية والسداسية</h2>
                 </div>
                 <div id="quiz-penta-hexa" class="space-y-8"></div>
-                
-                <!-- حاوية النتيجة -->
                 <div id="end-penta-hexa" class="hidden mt-10 text-center reveal-box"></div>
-                
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
                     <button onclick="resetSection('penta-hexa')" class="bg-white border border-slate-300 text-slate-600 font-medium py-4 px-8 rounded-xl text-xl w-full sm:w-auto transition-colors hover:bg-slate-50">إعادة المحاولة</button>
                     <button onclick="goToTab('comprehensive')" class="bg-indigo-600 text-white font-medium py-4 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto transition-colors hover:bg-indigo-700">القسم التالي</button>
@@ -252,16 +242,10 @@
                     <h2 class="text-xl md:text-2xl font-medium text-orange-700">تدريبات شاملة وعامة</h2>
                 </div>
                 <div id="quiz-comprehensive" class="space-y-8"></div>
-                
-                <!-- حاوية النتيجة (للقسم فقط) -->
                 <div id="end-comprehensive" class="hidden mt-10 text-center reveal-box"></div>
-                
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
                     <button onclick="resetSection('comprehensive')" class="bg-white border border-slate-300 text-slate-600 font-medium py-4 px-10 rounded-xl text-xl w-full sm:w-auto transition-colors hover:bg-slate-50">إعادة المحاولة</button>
                 </div>
-
-                <!-- حاوية النتيجة الإجمالية (تظهر فقط عند إتمام جميع الأقسام) -->
-                <div id="global-summary-container" class="hidden mt-12 text-center reveal-box border-t-2 border-slate-200 pt-10"></div>
             </div>
 
         </main>
@@ -399,24 +383,24 @@
                 hintDiv.innerHTML = `${qItem.hint}`;
                 qCard.appendChild(hintDiv);
 
-                // بناء الحاوية العمودية الممركزة أفقياً
+                // حاوية الخيارات العمودية الأنيقة (بدون Grid معقد) تتوسط الصفحة
                 const optsContainer = document.createElement('div');
                 optsContainer.className = 'flex flex-col gap-4 mx-auto max-w-2xl w-full';
 
                 optionsWithMeta.forEach((optObj) => {
                     const label = document.createElement('label');
-                    label.className = 'flex items-center gap-4 cursor-pointer p-5 rounded-2xl border border-slate-200 text-xl text-slate-600 bg-slate-50 transition-colors w-full';
+                    label.className = 'flex items-center gap-4 cursor-pointer p-5 rounded-xl border border-slate-200 text-xl text-slate-600 bg-slate-50 transition-colors w-full';
                     
                     const radio = document.createElement('input');
                     radio.type = 'radio';
                     radio.name = `radio-${sectionId}-${qIndex}`;
                     radio.value = optObj.isCorrect ? 'true' : 'false';
-                    radio.className = 'shrink-0'; // ضمان عدم انكماش الزر الدائري
+                    radio.className = 'shrink-0';
                     
                     radio.addEventListener('change', () => handleAnswer(sectionId, qIndex, radio, optObj.isCorrect, qCard, qItem, optionsWithMeta));
 
                     const span = document.createElement('span');
-                    span.className = 'leading-relaxed break-words'; // التفاف النص
+                    span.className = 'leading-relaxed break-words';
                     span.textContent = optObj.text;
 
                     label.appendChild(radio);
@@ -510,7 +494,7 @@
                 </div>
             `;
             
-            // التحقق من اكتمال جميع الأقسام لعرض النتيجة الإجمالية
+            // التحقق من اكتمال جميع الأقسام
             checkGlobalCompletion();
         }
 
@@ -531,7 +515,7 @@
             }
         }
 
-        // عرض النتيجة الإجمالية في أسفل القسم الأخير
+        // عرض النتيجة الإجمالية عائمة أسفل القسم النشط فوراً
         function showGlobalSummary() {
             let totalScore = 0;
             let totalQs = 0;
@@ -552,7 +536,14 @@
                 motivationalText = "لا تيأس! كل محاولة هي خطوة نحو النجاح، راجع الدرس وحاول مجدداً.";
             }
             
-            const globalContainer = document.getElementById('global-summary-container');
+            // البحث عن الحاوية الإجمالية أو إنشائها ديناميكياً
+            let globalContainer = document.getElementById('global-summary-container');
+            if (!globalContainer) {
+                globalContainer = document.createElement('div');
+                globalContainer.id = 'global-summary-container';
+                globalContainer.className = 'mt-12 text-center reveal-box border-t-2 border-slate-200 pt-10';
+            }
+
             globalContainer.classList.remove('hidden');
             globalContainer.innerHTML = `
                 <p class="text-2xl font-bold text-slate-600 mb-4">النتيجة الإجمالية للتطبيق</p>
@@ -563,15 +554,19 @@
                 </div>
             `;
             
-            // تمرير خفيف للأسفل لإظهار النتيجة إذا كان الطالب في القسم الأخير
-            if (currentSectionId === 'comprehensive') {
-                setTimeout(() => {
-                    globalContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }, 300);
+            // نقل الحاوية لتستقر بنهاية القسم المفتوح حالياً
+            const activeTab = document.getElementById(currentSectionId);
+            if (activeTab) {
+                activeTab.appendChild(globalContainer);
             }
+            
+            // التمرير السلس للأسفل لضمان رؤية النتيجة بوضوح
+            setTimeout(() => {
+                globalContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 300);
         }
 
-        // تصفير النتيجة وإخفائها عند إعادة المحاولة
+        // تصفير النتيجة وإخفائها عند إعادة المحاولة لقسم واحد
         function resetSection(sectionId) {
             appState[sectionId].score = 0;
             appState[sectionId].answered = 0;
@@ -584,11 +579,11 @@
             
             buildSection(sectionId);
             updateSectionProgress(sectionId);
-            checkGlobalCompletion(); // للتحقق وإخفاء النتيجة الإجمالية إن كانت ظاهرة
+            checkGlobalCompletion(); // لإخفاء النتيجة الإجمالية في حال كانت ظاهرة
             document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // تصفير جميع الأقسام والعودة للبداية
+        // تصفير جميع الأقسام والعودة للتبويب الأول بلمسة تمرير سلسة
         function resetAllTests() {
             for (const key in appState) {
                 appState[key].score = 0;
@@ -609,7 +604,7 @@
                 globalContainer.innerHTML = '';
             }
             
-            goToTab('review');
+            goToTab('review'); // "قبل أن نبدأ"
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
