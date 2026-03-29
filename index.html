@@ -42,8 +42,8 @@
         
         input[type="radio"] {
             accent-color: #4f46e5;
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
             cursor: pointer;
         }
 
@@ -61,7 +61,7 @@
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
-            scroll-margin-top: 60px; /* تم التعديل إلى 60px لضمان رفع الترويسة بالكامل خارج الشاشة */
+            scroll-margin-top: 5rem; /* تم التعديل إلى 5rem لضمان عدم اختفاء المحتوى خلف التبويبات */
         }
         .tab-content.active {
             display: block;
@@ -83,15 +83,15 @@
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col font-readex text-lg">
+<body class="antialiased min-h-screen flex flex-col font-readex text-xl">
 
-    <!-- الترويسة (تتحرك مع الصفحة وتختفي عند التمرير) -->
+    <!-- الترويسة (تتحرك مع الصفحة وتختفي عند التمرير لتوفير المساحة) -->
     <header class="w-full text-center py-6 bg-white">
         <div class="flex flex-col items-center justify-center space-y-1">
             <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" 
-               class="inline-flex items-center justify-center gap-2 transition-colors">
+               class="inline-flex items-center justify-center gap-2">
                 <span class="text-slate-900 text-2xl font-bold">العربية السهلة</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF0000" class="w-8 h-8 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF0000" class="w-7 h-7 shrink-0">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                 </svg>
             </a>
@@ -99,105 +99,252 @@
         </div>
     </header>
 
-    <!-- شريط التنقل الثابت (Sticky) -->
+    <!-- شريط التنقل الثابت (Sticky Tabs) -->
     <div class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200">
         <div class="max-w-5xl mx-auto px-4">
-            <nav class="flex flex-nowrap overflow-x-auto hide-scrollbar py-1 items-center gap-2 md:justify-center" id="tabs-container">
-                <button data-target="tri" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-indigo-600 text-white shadow-sm">المصادر الثلاثية</button>
-                <button data-target="quad" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-slate-50 text-slate-700 hover:bg-indigo-50">المصادر الرباعية</button>
-                <button data-target="penta-hexa" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-slate-50 text-slate-700 hover:bg-indigo-50">الخماسية والسداسية</button>
-                <button data-target="comprehensive" class="tab-btn shrink-0 px-5 py-2 rounded-lg font-bold text-base transition-colors bg-slate-50 text-slate-700 hover:bg-indigo-50">تدريبات شاملة</button>
+            <!-- التبويبات نحيفة، لا تتكدس، أفقية، وبدون تأثيرات Hover -->
+            <nav class="flex flex-nowrap overflow-x-auto hide-scrollbar py-1 items-center gap-2 md:justify-center whitespace-nowrap" id="tabs-container">
+                <button data-target="review" class="tab-btn shrink-0 px-5 py-1.5 rounded-lg font-bold text-xl bg-indigo-600 text-white shadow-sm">المراجعة</button>
+                <button data-target="tri" class="tab-btn shrink-0 px-5 py-1.5 rounded-lg font-bold text-xl bg-slate-50 text-slate-700">المصادر الثلاثية</button>
+                <button data-target="quad" class="tab-btn shrink-0 px-5 py-1.5 rounded-lg font-bold text-xl bg-slate-50 text-slate-700">المصادر الرباعية</button>
+                <button data-target="penta-hexa" class="tab-btn shrink-0 px-5 py-1.5 rounded-lg font-bold text-xl bg-slate-50 text-slate-700">الخماسية والسداسية</button>
+                <button data-target="comprehensive" class="tab-btn shrink-0 px-5 py-1.5 rounded-lg font-bold text-xl bg-slate-50 text-slate-700">تدريبات شاملة</button>
             </nav>
         </div>
-        <!-- شريط التقدم -->
+        <!-- شريط التقدم النحيف 2px ديناميكي للقسم الحالي -->
         <div class="h-[2px] w-full bg-gray-100">
             <div id="progress-bar" class="h-full bg-indigo-600 transition-all duration-300 w-0"></div>
         </div>
     </div>
 
     <!-- الحاوية الرئيسية للمحتوى -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 w-full mt-6 mb-12 flex-grow">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 w-full mt-8 mb-16 flex-grow">
         
         <!-- الأقسام -->
         <main class="w-full">
             
-            <!-- 1. المصادر الثلاثية -->
-            <div id="tri" class="tab-content active bg-pastel-blue/40 p-6 md:p-8 rounded-3xl border border-blue-100">
-                <!-- العنوان الرئيسي للتطبيق يظهر في الصفحة الأولى فقط -->
+            <!-- 0. المراجعة -->
+            <div id="review" class="tab-content active bg-slate-50/50 p-6 md:p-10 rounded-3xl border border-slate-200">
                 <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-4xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm">تدريبات تفاعلية على المصادر</h1>
+                    <h1 class="text-3xl md:text-4xl font-semibold text-indigo-800 mb-2">المصادر</h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-slate-600">مراجعة سريعة للدرس</h2>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- تعريف المصدر -->
+                    <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start gap-5">
+                        <svg class="w-10 h-10 text-indigo-500 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-indigo-800 mb-3">ما المصدر؟</h3>
+                            <p class="text-xl text-slate-600 leading-relaxed">هو اسم يدل على حدث مجرَّد من الزمن (مثل: زراعة، إكرام، انطلاق). لا يدل على ماضٍ أو مضارع أو أمر.</p>
+                        </div>
+                    </div>
+
+                    <!-- الثلاثية -->
+                    <div class="bg-pastel-blue/40 p-6 md:p-8 rounded-2xl border border-blue-200 shadow-sm flex flex-col sm:flex-row items-start gap-5">
+                        <svg class="w-10 h-10 text-blue-500 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <div class="w-full">
+                            <h3 class="text-2xl font-semibold text-blue-800 mb-4">المصادر الثلاثية</h3>
+                            <p class="text-xl text-slate-600 mb-3">أغلبها <strong class="font-semibold text-slate-700">سماعي</strong>، ولكن لها أوزان <strong class="font-semibold text-slate-700">قياسية</strong> تدل على:</p>
+                            <ul class="list-disc list-inside text-xl text-slate-600 space-y-2 ml-4">
+                                <li><strong class="font-semibold text-slate-700">حرفة:</strong> فِعَالَة (زراعة، صناعة)</li>
+                                <li><strong class="font-semibold text-slate-700">حركة واضطراب:</strong> فَعَلَان (غليان، طيران)</li>
+                                <li><strong class="font-semibold text-slate-700">مرض (داء):</strong> فُعَال (سعال، زكام)</li>
+                                <li><strong class="font-semibold text-slate-700">صوت:</strong> فَعِيل / فُعَال (زئير، صراخ)</li>
+                                <li><strong class="font-semibold text-slate-700">لون:</strong> فُعْلَة (خضرة، حمرة)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- الرباعية -->
+                    <div class="bg-pastel-green/40 p-6 md:p-8 rounded-2xl border border-emerald-200 shadow-sm flex flex-col sm:flex-row items-start gap-5">
+                        <svg class="w-10 h-10 text-emerald-500 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                        <div class="w-full">
+                            <h3 class="text-2xl font-semibold text-emerald-800 mb-4">المصادر الرباعية</h3>
+                            <p class="text-xl text-slate-600 mb-3">قياسية دائمًا، وتأتي على أوزان محددة حسب الفعل:</p>
+                            <ul class="list-disc list-inside text-xl text-slate-600 space-y-2 ml-4">
+                                <li><strong class="font-semibold text-slate-700">أَفْعَلَ:</strong> إِفْعَال / إِفَالَة (أكرم ← إكرام، أدار ← إدارة)</li>
+                                <li><strong class="font-semibold text-slate-700">فَعَّلَ:</strong> تَفْعِيل / تَفْعِلَة (علَّم ← تعليم، ربَّى ← تربية)</li>
+                                <li><strong class="font-semibold text-slate-700">فَاعَلَ:</strong> مُفَاعَلَة / فِعَال (جادل ← مجادلة وجدال)</li>
+                                <li><strong class="font-semibold text-slate-700">فَعْلَلَ:</strong> فَعْلَلَة / فِعْلَال (دحرج ← دحرجة، زلزل ← زلزلة وزلزال)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- الخماسية والسداسية -->
+                    <div class="bg-pastel-purple/40 p-6 md:p-8 rounded-2xl border border-fuchsia-200 shadow-sm flex flex-col sm:flex-row items-start gap-5">
+                        <svg class="w-10 h-10 text-fuchsia-500 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                        <div class="w-full">
+                            <h3 class="text-2xl font-semibold text-fuchsia-800 mb-4">المصادر الخماسية والسداسية</h3>
+                            <p class="text-xl text-slate-600 mb-3">تعتمد على مبدأين أساسيين:</p>
+                            <ul class="list-disc list-inside text-xl text-slate-600 space-y-3 ml-4">
+                                <li><strong class="font-semibold text-slate-700">المبدوء بهمزة وصل:</strong> نكسر الحرف الثالث ونزيد ألفًا قبل الآخر.<br><span class="text-fuchsia-700 font-medium ml-6">(انطلق ← انطِلاق، استخرج ← استِخراج)</span></li>
+                                <li><strong class="font-semibold text-slate-700">المبدوء بتاء زائدة:</strong> يُضم ما قبل آخره.<br><span class="text-fuchsia-700 font-medium ml-6">(تعلَّم ← تعلُّم، تقدَّم ← تقدُّم)</span><br>وإذا كان معتل الآخر، يُكسر ما قبل آخره <span class="text-fuchsia-700 font-medium">(تمادى ← تمادِي)</span>.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl md:text-3xl font-bold text-blue-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-blue-100">المصادر الثلاثية</h2>
+                <div class="mt-10 flex justify-center">
+                    <button onclick="goToTab('tri')" class="bg-indigo-600 text-white font-medium py-3 px-10 rounded-xl text-xl shadow-sm">ابدأ التدريبات الآن</button>
                 </div>
-                <div id="quiz-tri" class="space-y-6"></div>
-                <div id="end-tri" class="hidden mt-8 text-center reveal-box"></div>
+            </div>
+
+            <!-- 1. المصادر الثلاثية -->
+            <div id="tri" class="tab-content bg-pastel-blue/40 p-6 md:p-10 rounded-3xl border border-blue-100">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl md:text-4xl font-semibold text-indigo-800 mb-2">المصادر</h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-blue-700">المصادر الثلاثية</h2>
+                </div>
+                <div id="quiz-tri" class="space-y-8"></div>
+                <div id="end-tri" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <!-- أزرار النهاية الدائمة -->
-                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
-                    <button onclick="resetSection('tri')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
-                    <button onclick="goToTab('quad')" class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="resetSection('tri')" class="bg-white border border-slate-300 text-slate-600 font-medium py-3 px-8 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('quad')" class="bg-indigo-600 text-white font-medium py-3 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
                 </div>
             </div>
 
             <!-- 2. المصادر الرباعية -->
-            <div id="quad" class="tab-content bg-pastel-green/40 p-6 md:p-8 rounded-3xl border border-emerald-100">
-                <div class="text-center mb-8">
-                    <h1 class="text-2xl md:text-3xl font-bold text-emerald-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-emerald-100">المصادر الرباعية</h1>
+            <div id="quad" class="tab-content bg-pastel-green/40 p-6 md:p-10 rounded-3xl border border-emerald-100">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl md:text-4xl font-semibold text-indigo-800 mb-2">المصادر</h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-emerald-700">المصادر الرباعية</h2>
                 </div>
-                <div id="quiz-quad" class="space-y-6"></div>
-                <div id="end-quad" class="hidden mt-8 text-center reveal-box"></div>
+                <div id="quiz-quad" class="space-y-8"></div>
+                <div id="end-quad" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <!-- أزرار النهاية الدائمة -->
-                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
-                    <button onclick="resetSection('quad')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
-                    <button onclick="goToTab('penta-hexa')" class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="resetSection('quad')" class="bg-white border border-slate-300 text-slate-600 font-medium py-3 px-8 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('penta-hexa')" class="bg-indigo-600 text-white font-medium py-3 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
                 </div>
             </div>
 
             <!-- 3. الخماسية والسداسية -->
-            <div id="penta-hexa" class="tab-content bg-pastel-purple/40 p-6 md:p-8 rounded-3xl border border-fuchsia-100">
-                <div class="text-center mb-8">
-                    <h1 class="text-2xl md:text-3xl font-bold text-fuchsia-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-fuchsia-100">الخماسية والسداسية</h1>
+            <div id="penta-hexa" class="tab-content bg-pastel-purple/40 p-6 md:p-10 rounded-3xl border border-fuchsia-100">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl md:text-4xl font-semibold text-indigo-800 mb-2">المصادر</h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-fuchsia-700">الخماسية والسداسية</h2>
                 </div>
-                <div id="quiz-penta-hexa" class="space-y-6"></div>
-                <div id="end-penta-hexa" class="hidden mt-8 text-center reveal-box"></div>
+                <div id="quiz-penta-hexa" class="space-y-8"></div>
+                <div id="end-penta-hexa" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <!-- أزرار النهاية الدائمة -->
-                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
-                    <button onclick="resetSection('penta-hexa')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-6 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
-                    <button onclick="goToTab('comprehensive')" class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="resetSection('penta-hexa')" class="bg-white border border-slate-300 text-slate-600 font-medium py-3 px-8 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('comprehensive')" class="bg-indigo-600 text-white font-medium py-3 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
                 </div>
             </div>
 
             <!-- 4. تدريبات شاملة -->
-            <div id="comprehensive" class="tab-content bg-pastel-orange/40 p-6 md:p-8 rounded-3xl border border-orange-100">
-                <div class="text-center mb-8">
-                    <h1 class="text-2xl md:text-3xl font-bold text-orange-900 inline-block px-6 py-2 bg-white rounded-xl shadow-sm border border-orange-100">تدريبات شاملة وعامة</h1>
+            <div id="comprehensive" class="tab-content bg-pastel-orange/40 p-6 md:p-10 rounded-3xl border border-orange-100">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl md:text-4xl font-semibold text-indigo-800 mb-2">المصادر</h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-orange-700">تدريبات شاملة وعامة</h2>
                 </div>
-                <div id="quiz-comprehensive" class="space-y-6"></div>
-                <div id="end-comprehensive" class="hidden mt-8 text-center reveal-box"></div>
+                <div id="quiz-comprehensive" class="space-y-8"></div>
+                <div id="end-comprehensive" class="hidden mt-10 text-center reveal-box"></div>
                 
                 <!-- أزرار النهاية الدائمة -->
-                <div class="mt-8 flex justify-center">
-                    <button onclick="resetSection('comprehensive')" class="bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-8 rounded-xl transition-colors text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                <div class="mt-10 flex justify-center">
+                    <button onclick="resetSection('comprehensive')" class="bg-white border border-slate-300 text-slate-600 font-medium py-3 px-10 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                </div>
+            </div>
+
+            <!-- 1. المصادر الثلاثية -->
+            <div id="tri" class="tab-content bg-pastel-blue/40 p-6 md:p-10 rounded-3xl border border-blue-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm">المصادر</h1>
+                </div>
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold text-blue-900 inline-block px-8 py-3 bg-white rounded-xl shadow-sm border border-blue-100">المصادر الثلاثية</h2>
+                </div>
+                <div id="quiz-tri" class="space-y-8"></div>
+                <div id="end-tri" class="hidden mt-10 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="resetSection('tri')" class="bg-white border-2 border-slate-300 text-slate-700 font-bold py-4 px-8 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('quad')" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                </div>
+            </div>
+
+            <!-- 2. المصادر الرباعية -->
+            <div id="quad" class="tab-content bg-pastel-green/40 p-6 md:p-10 rounded-3xl border border-emerald-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm">المصادر</h1>
+                </div>
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold text-emerald-900 inline-block px-8 py-3 bg-white rounded-xl shadow-sm border border-emerald-100">المصادر الرباعية</h2>
+                </div>
+                <div id="quiz-quad" class="space-y-8"></div>
+                <div id="end-quad" class="hidden mt-10 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="resetSection('quad')" class="bg-white border-2 border-slate-300 text-slate-700 font-bold py-4 px-8 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('penta-hexa')" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                </div>
+            </div>
+
+            <!-- 3. الخماسية والسداسية -->
+            <div id="penta-hexa" class="tab-content bg-pastel-purple/40 p-6 md:p-10 rounded-3xl border border-fuchsia-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm">المصادر</h1>
+                </div>
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold text-fuchsia-900 inline-block px-8 py-3 bg-white rounded-xl shadow-sm border border-fuchsia-100">الخماسية والسداسية</h2>
+                </div>
+                <div id="quiz-penta-hexa" class="space-y-8"></div>
+                <div id="end-penta-hexa" class="hidden mt-10 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="resetSection('penta-hexa')" class="bg-white border-2 border-slate-300 text-slate-700 font-bold py-4 px-8 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
+                    <button onclick="goToTab('comprehensive')" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-xl text-xl shadow-sm w-full sm:w-auto">القسم التالي</button>
+                </div>
+            </div>
+
+            <!-- 4. تدريبات شاملة -->
+            <div id="comprehensive" class="tab-content bg-pastel-orange/40 p-6 md:p-10 rounded-3xl border border-orange-100">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-5xl font-bold text-indigo-900 bg-white/90 inline-block px-8 py-4 rounded-2xl border border-indigo-200 shadow-sm">المصادر</h1>
+                </div>
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-4xl font-bold text-orange-900 inline-block px-8 py-3 bg-white rounded-xl shadow-sm border border-orange-100">تدريبات شاملة وعامة</h2>
+                </div>
+                <div id="quiz-comprehensive" class="space-y-8"></div>
+                <div id="end-comprehensive" class="hidden mt-10 text-center reveal-box"></div>
+                
+                <!-- أزرار النهاية الدائمة -->
+                <div class="mt-10 flex justify-center">
+                    <button onclick="resetSection('comprehensive')" class="bg-white border-2 border-slate-300 text-slate-700 font-bold py-4 px-10 rounded-xl text-xl w-full sm:w-auto">إعادة المحاولة</button>
                 </div>
             </div>
 
             <!-- النتيجة الإجمالية تظهر في النهاية -->
-            <div id="final-summary" class="hidden mt-10 p-8 bg-indigo-50 rounded-3xl border-2 border-indigo-200 text-center reveal-box">
-                <h2 class="text-3xl font-bold text-indigo-900 mb-4">أنهيت جميع التدريبات!</h2>
-                <div id="final-score-text" class="text-4xl font-bold text-indigo-700 mb-4" dir="ltr"></div>
-                <p class="text-xl text-indigo-800 font-semibold">مجهود رائع، استمر في التدرب لتحقيق التميز دائمًا.</p>
+            <div id="final-summary" class="hidden mt-12 p-10 bg-indigo-50 rounded-3xl border-2 border-indigo-200 text-center reveal-box">
+                <h2 class="text-4xl font-bold text-indigo-900 mb-6">أنهيت جميع التدريبات!</h2>
+                <div id="final-score-text" class="text-6xl font-bold text-indigo-700 mb-6" dir="ltr"></div>
+                <p class="text-2xl text-indigo-800 font-bold">مجهود رائع، استمر في التدرب لتحقيق التميز دائمًا.</p>
             </div>
 
         </main>
     </div>
 
-    <!-- التذييل -->
+    <!-- التذييل ذو المسافة العمودية الكافية -->
     <footer class="bg-white border-t border-gray-200 py-8 text-center w-full mt-auto">
-        <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-slate-500 text-sm font-medium transition-colors">
+        <a href="https://www.youtube.com/egysalah" target="_blank" rel="noopener noreferrer" class="text-slate-400 text-sm font-medium block w-full h-full">
             جميع الحقوق محفوظة لقناة العربية السهلة
         </a>
     </footer>
@@ -261,8 +408,10 @@
             ]
         };
 
-        const sectionOrder = ['tri', 'quad', 'penta-hexa', 'comprehensive'];
+        const sectionOrder = ['review', 'tri', 'quad', 'penta-hexa', 'comprehensive'];
         
+        let currentSectionId = 'review';
+
         // حالة التطبيق
         const appState = {
             'tri': { score: 0, answered: 0, isDone: false },
@@ -271,20 +420,30 @@
             'comprehensive': { score: 0, answered: 0, isDone: false }
         };
 
-        // تحديث شريط التقدم الكلي
-        function updateGlobalProgress() {
-            let totalQuestions = 0;
-            let totalAnswered = 0;
-            
-            for (const key in quizData) {
-                totalQuestions += quizData[key].length;
-                totalAnswered += appState[key].answered;
+        // تحديث شريط التقدم للقسم الحالي
+        function updateSectionProgress(sectionId) {
+            if (sectionId === 'review') {
+                document.getElementById('progress-bar').style.width = '0%';
+                return;
             }
-            
-            const percent = (totalAnswered / totalQuestions) * 100;
+            const total = quizData[sectionId].length;
+            const answered = appState[sectionId].answered;
+            const percent = (answered / total) * 100;
             document.getElementById('progress-bar').style.width = `${percent}%`;
 
-            if (percent === 100) {
+            checkGlobalCompletion();
+        }
+
+        // التحقق من اكتمال جميع الأقسام
+        function checkGlobalCompletion() {
+            let allDone = true;
+            for (const key in appState) {
+                if (!appState[key].isDone) {
+                    allDone = false;
+                    break;
+                }
+            }
+            if (allDone) {
                 showGlobalSummary();
             }
         }
@@ -292,7 +451,9 @@
         // بناء الواجهة للقسم مع الخلط العشوائي
         function buildSection(sectionId) {
             const container = document.getElementById(`quiz-${sectionId}`);
+            if (!container) return; // لتبويب المراجعة
             container.innerHTML = ''; 
+            
             const questions = quizData[sectionId];
             
             questions.forEach((qItem, qIndex) => {
@@ -303,24 +464,31 @@
                     text: optText,
                     isCorrect: origIndex === qItem.correctIndex
                 }));
-                optionsWithMeta = shuffleArray(optionsWithMeta);
+                
+                // منع خلط أسئلة الصواب والخطأ وتثبيت ترتيبها (صواب ثم خطأ)
+                const isTrueFalse = qItem.options.length === 2 && qItem.options.includes('صواب') && qItem.options.includes('خطأ');
+                if (!isTrueFalse) {
+                    optionsWithMeta = shuffleArray(optionsWithMeta);
+                } else {
+                    optionsWithMeta.sort((a, b) => a.text === 'صواب' ? -1 : 1);
+                }
 
                 const qCard = document.createElement('div');
-                qCard.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100';
+                qCard.className = 'bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100';
                 qCard.id = `card-${sectionId}-${qIndex}`;
 
                 // رأس السؤال
                 const qHeader = document.createElement('div');
-                qHeader.className = 'flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-5';
+                qHeader.className = 'flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6';
                 
                 const qText = document.createElement('p');
-                qText.className = 'text-xl md:text-2xl font-bold text-slate-800 leading-relaxed';
-                qText.innerHTML = `<span class="text-indigo-600 font-bold ml-1">${arabicQNum}-</span> ${qItem.q}`;
+                qText.className = 'text-2xl font-semibold text-slate-700 leading-relaxed';
+                qText.innerHTML = `<span class="text-indigo-600 font-semibold ml-1">${arabicQNum}-</span> ${qItem.q}`;
                 
                 // زر التلميح
                 const hintBtn = document.createElement('button');
-                hintBtn.className = 'text-amber-500 hover:text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg transition-colors font-bold text-base border border-amber-100 flex items-center gap-1 self-start shrink-0';
-                hintBtn.innerHTML = `<span class="text-xl">💡</span> تلميح`;
+                hintBtn.className = 'text-amber-600 bg-amber-50 px-4 py-2 rounded-xl font-medium text-xl border border-amber-100 flex items-center gap-1 self-start shrink-0';
+                hintBtn.innerHTML = `<span class="text-2xl">💡</span> تلميح`;
                 hintBtn.onclick = () => toggleHint(sectionId, qIndex);
 
                 qHeader.appendChild(qText);
@@ -330,17 +498,17 @@
                 // منطقة التلميح
                 const hintDiv = document.createElement('div');
                 hintDiv.id = `hint-${sectionId}-${qIndex}`;
-                hintDiv.className = 'hidden mb-5 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 font-medium text-lg reveal-box';
+                hintDiv.className = 'hidden mb-6 p-5 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 font-medium text-xl reveal-box';
                 hintDiv.innerHTML = `${qItem.hint}`;
                 qCard.appendChild(hintDiv);
 
                 // الخيارات
                 const optsContainer = document.createElement('div');
-                optsContainer.className = 'flex flex-col gap-3';
+                optsContainer.className = 'flex flex-col gap-4';
 
                 optionsWithMeta.forEach((optObj, renderIndex) => {
                     const label = document.createElement('label');
-                    label.className = 'flex items-center gap-3 cursor-pointer p-4 rounded-xl transition-all border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-xl text-slate-700 bg-slate-50';
+                    label.className = 'flex items-center gap-4 cursor-pointer p-5 rounded-2xl border border-slate-200 text-xl text-slate-600 bg-slate-50';
                     
                     const radio = document.createElement('input');
                     radio.type = 'radio';
@@ -361,7 +529,7 @@
 
                 // التغذية الراجعة
                 const feedbackDiv = document.createElement('div');
-                feedbackDiv.className = 'feedback-box hidden mt-5 p-5 rounded-xl border reveal-box';
+                feedbackDiv.className = 'feedback-box hidden mt-6 p-6 rounded-2xl border reveal-box';
                 qCard.appendChild(feedbackDiv);
 
                 container.appendChild(qCard);
@@ -387,15 +555,15 @@
             allRadios.forEach((radio, index) => {
                 radio.disabled = true;
                 const label = allLabels[index];
-                label.classList.remove('hover:border-indigo-300', 'hover:bg-indigo-50/50', 'cursor-pointer');
+                label.classList.remove('cursor-pointer');
                 label.classList.add('cursor-default');
 
                 if (currentOptionsMap[index].isCorrect) {
                     label.classList.remove('border-slate-200', 'bg-slate-50');
-                    label.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                    label.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800', 'font-semibold');
                 } else if (radio === selectedRadio && !isCorrect) {
-                    label.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-700');
-                    label.classList.add('border-red-400', 'bg-red-50', 'text-red-800', 'line-through');
+                    label.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-600');
+                    label.classList.add('border-red-400', 'bg-red-50', 'text-red-700', 'line-through');
                 } else {
                     label.classList.add('opacity-50');
                 }
@@ -404,26 +572,26 @@
             feedbackDiv.classList.remove('hidden');
             
             const iconHTML = isCorrect 
-                ? `<svg class="w-8 h-8 text-emerald-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`
-                : `<svg class="w-8 h-8 text-red-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                ? `<svg class="w-10 h-10 text-emerald-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`
+                : `<svg class="w-10 h-10 text-red-600 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
             
             const titleHTML = isCorrect
-                ? `<p class="text-2xl font-bold mb-2 text-emerald-800">إجابة صحيحة</p>`
-                : `<p class="text-2xl font-bold mb-2 text-red-800">إجابة خاطئة</p>`;
+                ? `<p class="text-2xl font-semibold mb-3 text-emerald-700">إجابة صحيحة</p>`
+                : `<p class="text-2xl font-semibold mb-3 text-red-700">إجابة خاطئة</p>`;
 
             const bgClass = isCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200';
             
-            feedbackDiv.className = `feedback-box mt-5 p-5 rounded-xl border reveal-box ${bgClass}`;
+            feedbackDiv.className = `feedback-box mt-6 p-6 rounded-2xl border reveal-box ${bgClass}`;
             feedbackDiv.innerHTML = `
-                <div class="flex items-start gap-3">
+                <div class="flex items-start gap-4">
                     ${iconHTML}
                     <div>
                         ${titleHTML}
-                        <p class="text-xl text-slate-800 leading-relaxed"><strong class="font-bold">التوضيح:</strong> ${qDataObj.explanation}</p>
+                        <p class="text-xl text-slate-700 leading-relaxed"><strong class="font-semibold">التوضيح:</strong> ${qDataObj.explanation}</p>
                     </div>
                 </div>`;
 
-            updateGlobalProgress();
+            updateSectionProgress(sectionId);
 
             if (appState[sectionId].answered === quizData[sectionId].length) {
                 appState[sectionId].isDone = true;
@@ -438,7 +606,7 @@
             
             endDiv.classList.remove('hidden');
             endDiv.innerHTML = `
-                <div class="p-8 bg-white/80 rounded-2xl border border-slate-200 shadow-sm inline-block w-full max-w-md">
+                <div class="p-8 bg-white/90 rounded-2xl border border-slate-200 shadow-sm inline-block w-full max-w-md">
                     <h3 class="text-3xl font-bold text-slate-800 mb-4">نتيجة القسم</h3>
                     <div class="text-5xl font-bold text-indigo-700 mb-2" dir="ltr">${toArabicDigits(score)} / ${toArabicDigits(total)}</div>
                 </div>
@@ -451,7 +619,7 @@
             appState[sectionId].isDone = false;
             document.getElementById(`end-${sectionId}`).classList.add('hidden');
             buildSection(sectionId);
-            updateGlobalProgress();
+            updateSectionProgress(sectionId);
             
             // التمرير لأعلى القسم بنعومة
             document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -471,9 +639,10 @@
 
         // نظام التبويبات والتمرير
         function goToTab(targetId) {
+            currentSectionId = targetId;
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
+                btn.classList.remove('bg-indigo-600', 'text-white');
                 btn.classList.add('bg-slate-50', 'text-slate-700');
             });
 
@@ -482,12 +651,11 @@
             const targetBtn = document.querySelector(`button[data-target="${targetId}"]`);
             if(targetBtn){
                 targetBtn.classList.remove('bg-slate-50', 'text-slate-700');
-                targetBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
-                // التمرير الأفقي للتبويبات لضمان رؤية الزر النشط في الجوال
+                targetBtn.classList.add('bg-indigo-600', 'text-white');
                 targetBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
-            // التمرير لمحتوى القسم بحيث تكون التبويبات في الأعلى
+            updateSectionProgress(targetId);
             document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -499,7 +667,10 @@
 
         // تهيئة التطبيق
         window.addEventListener('DOMContentLoaded', () => {
-            sectionOrder.forEach(id => buildSection(id));
+            sectionOrder.forEach(id => {
+                if(id !== 'review') buildSection(id);
+            });
+            updateSectionProgress('review');
         });
     </script>
 </body>
