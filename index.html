@@ -120,9 +120,9 @@
     </div>
 
     <!-- الحاوية الرئيسية للمحتوى -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 w-full mt-8 mb-16 flex-grow flex flex-col">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 w-full mt-8 mb-16 flex-grow">
         
-        <main class="w-full flex-grow flex flex-col">
+        <main class="w-full">
             
             <!-- 0. المراجعة -->
             <div id="review" class="tab-content active bg-slate-50/50 p-6 md:p-10 rounded-3xl border border-slate-200">
@@ -400,21 +400,26 @@
                 hintDiv.innerHTML = `${qItem.hint}`;
                 qCard.appendChild(hintDiv);
 
+                // الشبكة المرنة والتمركز أفقياً مع items-stretch لتساوي الارتفاع
                 const optsContainer = document.createElement('div');
-                optsContainer.className = 'flex flex-col gap-4';
+                optsContainer.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4 mx-auto max-w-[42rem] w-full items-stretch';
 
                 optionsWithMeta.forEach((optObj) => {
                     const label = document.createElement('label');
-                    label.className = 'flex items-center gap-4 cursor-pointer p-5 rounded-2xl border border-slate-200 text-xl text-slate-600 bg-slate-50 transition-colors';
+                    // الراحة اللمسية بحد أدنى للارتفاع وتجاهل تأثيرات hover، مع تحسين الحواف لـ rounded-xl
+                    label.className = 'flex items-center gap-4 cursor-pointer p-4 min-h-[3.5rem] rounded-xl border border-slate-200 text-xl text-slate-600 bg-slate-50 w-full h-full';
                     
                     const radio = document.createElement('input');
                     radio.type = 'radio';
                     radio.name = `radio-${sectionId}-${qIndex}`;
                     radio.value = optObj.isCorrect ? 'true' : 'false';
+                    radio.className = 'shrink-0'; // ضمان عدم انكماش الزر الدائري عند تكبير النص
                     
                     radio.addEventListener('change', () => handleAnswer(sectionId, qIndex, radio, optObj.isCorrect, qCard, qItem, optionsWithMeta));
 
                     const span = document.createElement('span');
+                    // مرونة النص والتفافه لضمان صموده أمام التكبير
+                    span.className = 'whitespace-normal break-words leading-relaxed flex-1';
                     span.textContent = optObj.text;
 
                     label.appendChild(radio);
